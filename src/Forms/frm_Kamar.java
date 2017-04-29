@@ -32,52 +32,52 @@ public class frm_Kamar extends javax.swing.JFrame {
         layoutStyle1 = new org.jdesktop.layout.LayoutStyle();
         panelGlass1 = new usu.widget.glass.PanelGlass();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnSimpanKamar = new javax.swing.JButton();
+        btnTambahKamar = new javax.swing.JButton();
+        btnEditKamar = new javax.swing.JButton();
+        btnHapusKamar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton6 = new javax.swing.JButton();
+        tblKamar = new javax.swing.JTable();
+        btnKeluarKamar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        tfNomorKamar = new javax.swing.JTextField();
+        tfNamaKamar = new javax.swing.JTextField();
+        tfHargaKamar = new javax.swing.JTextField();
+        tfStatusKamar = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox();
-        jButton5 = new javax.swing.JButton();
+        cbFilterKamar = new javax.swing.JComboBox();
+        btnCariKamar = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        jTextField5 = new javax.swing.JTextField();
+        tfCariKamar = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelGlass1.setBackgroundImage(new javax.swing.ImageIcon(getClass().getResource("/IMG/bgFormKamar.png"))); // NOI18N
         panelGlass1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
+        jPanel1.setLayout(new java.awt.GridLayout(1, 0, 4, 0));
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton1.setText("SIMPAN");
-        jPanel1.add(jButton1);
+        btnSimpanKamar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnSimpanKamar.setText("SIMPAN");
+        jPanel1.add(btnSimpanKamar);
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton2.setText("TAMBAH");
-        jPanel1.add(jButton2);
+        btnTambahKamar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnTambahKamar.setText("TAMBAH");
+        jPanel1.add(btnTambahKamar);
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton3.setText("EDIT");
-        jPanel1.add(jButton3);
+        btnEditKamar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnEditKamar.setText("EDIT");
+        jPanel1.add(btnEditKamar);
 
-        jButton4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton4.setText("HAPUS");
-        jPanel1.add(jButton4);
+        btnHapusKamar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnHapusKamar.setText("HAPUS");
+        jPanel1.add(btnHapusKamar);
 
         panelGlass1.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, 360, 40));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblKamar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -88,66 +88,67 @@ public class frm_Kamar extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblKamar);
 
         panelGlass1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 180, 690, 330));
 
-        jButton6.setFont(new java.awt.Font("Times New Roman", 1, 11)); // NOI18N
-        jButton6.setText("EXIT");
-        jButton6.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnKeluarKamar.setBackground(new java.awt.Color(255, 204, 0));
+        btnKeluarKamar.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        btnKeluarKamar.setText("Tutup");
+        btnKeluarKamar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton6MouseClicked(evt);
+                btnKeluarKamarMouseClicked(evt);
             }
         });
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        btnKeluarKamar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                btnKeluarKamarActionPerformed(evt);
             }
         });
-        panelGlass1.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 3, 100, 40));
+        panelGlass1.add(btnKeluarKamar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 3, 100, 40));
 
-        jPanel2.setLayout(new java.awt.GridLayout(4, 0));
+        jPanel2.setLayout(new java.awt.GridLayout(4, 0, 0, 5));
 
-        jTextField1.setText("jTextField1");
-        jPanel2.add(jTextField1);
+        tfNomorKamar.setText("jTextField1");
+        jPanel2.add(tfNomorKamar);
 
-        jTextField2.setText("jTextField2");
-        jPanel2.add(jTextField2);
+        tfNamaKamar.setText("jTextField2");
+        jPanel2.add(tfNamaKamar);
 
-        jTextField3.setText("jTextField3");
-        jPanel2.add(jTextField3);
+        tfHargaKamar.setText("jTextField3");
+        jPanel2.add(tfHargaKamar);
 
-        jTextField4.setText("jTextField4");
-        jPanel2.add(jTextField4);
+        tfStatusKamar.setText("jTextField4");
+        jPanel2.add(tfStatusKamar);
 
         panelGlass1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, 190, 130));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbFilterKamar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Berdasarkan", "Harga", "Nama", "Status" }));
 
-        jButton5.setText("CARI");
+        btnCariKamar.setText("CARI");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jComboBox1, 0, 170, Short.MAX_VALUE)
+                .addComponent(cbFilterKamar, 0, 170, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(btnCariKamar, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(cbFilterKamar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCariKamar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         panelGlass1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 130, 280, 30));
 
-        jPanel4.setLayout(new java.awt.GridLayout());
+        jPanel4.setLayout(new java.awt.GridLayout(1, 0));
 
-        jTextField5.setText("jTextField5");
-        jPanel4.add(jTextField5);
+        tfCariKamar.setText("jTextField5");
+        jPanel4.add(tfCariKamar);
 
         panelGlass1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 130, 230, 30));
 
@@ -156,17 +157,18 @@ public class frm_Kamar extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void btnKeluarKamarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKeluarKamarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_btnKeluarKamarActionPerformed
 
-    private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
+    private void btnKeluarKamarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnKeluarKamarMouseClicked
         // TODO add your handling code here:
-         int pilihan = JOptionPane.showConfirmDialog(this,"Apa anda yakin ingin Keluar","Exit",JOptionPane.YES_NO_OPTION);
-        if (pilihan==0) {
-            System.exit(0);
-        }
-    }//GEN-LAST:event_jButton6MouseClicked
+//         int pilihan = JOptionPane.showConfirmDialog(this,"Apa anda yakin ingin Keluar","Exit",JOptionPane.YES_NO_OPTION);
+//        if (pilihan==0) {
+//            System.exit(0);
+//        }
+        dispose();
+    }//GEN-LAST:event_btnKeluarKamarMouseClicked
 
     /**
      * @param args the command line arguments
@@ -204,25 +206,25 @@ public class frm_Kamar extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JButton btnCariKamar;
+    private javax.swing.JButton btnEditKamar;
+    private javax.swing.JButton btnHapusKamar;
+    private javax.swing.JButton btnKeluarKamar;
+    private javax.swing.JButton btnSimpanKamar;
+    private javax.swing.JButton btnTambahKamar;
+    private javax.swing.JComboBox cbFilterKamar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     private org.jdesktop.layout.LayoutStyle layoutStyle1;
     private usu.widget.glass.PanelGlass panelGlass1;
+    private javax.swing.JTable tblKamar;
+    private javax.swing.JTextField tfCariKamar;
+    private javax.swing.JTextField tfHargaKamar;
+    private javax.swing.JTextField tfNamaKamar;
+    private javax.swing.JTextField tfNomorKamar;
+    private javax.swing.JTextField tfStatusKamar;
     // End of variables declaration//GEN-END:variables
 }

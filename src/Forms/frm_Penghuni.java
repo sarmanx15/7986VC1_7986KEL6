@@ -11,12 +11,12 @@ import javax.swing.JOptionPane;
  *
  * @author acer
  */
-public class frm_Penyewa extends javax.swing.JFrame {
+public class frm_Penghuni extends javax.swing.JFrame {
 
     /**
      * Creates new form frm_Penyewa
      */
-    public frm_Penyewa() {
+    public frm_Penghuni() {
         initComponents();
     }
 
@@ -39,14 +39,14 @@ public class frm_Penyewa extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        jComboBox2 = new javax.swing.JComboBox<String>();
-        jButton3 = new javax.swing.JButton();
+        cbCariPenghuni = new javax.swing.JComboBox<>();
+        btnCariPenghuni = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox<String>();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jTextField4 = new javax.swing.JTextField();
         jTextField5 = new javax.swing.JTextField();
         jTextField6 = new javax.swing.JTextField();
@@ -109,16 +109,16 @@ public class frm_Penyewa extends javax.swing.JFrame {
 
         jPanel4.setLayout(new java.awt.GridLayout(1, 0));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Cari Berdasarkan" }));
-        jPanel4.add(jComboBox2);
+        cbCariPenghuni.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Berdasarkan", "Nama", "No. Kamar", "Gender" }));
+        jPanel4.add(cbCariPenghuni);
 
-        jButton3.setText("Cari");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnCariPenghuni.setText("Cari");
+        btnCariPenghuni.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnCariPenghuniActionPerformed(evt);
             }
         });
-        jPanel4.add(jButton3);
+        jPanel4.add(btnCariPenghuni);
 
         panel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 130, 270, 30));
 
@@ -160,7 +160,7 @@ public class frm_Penyewa extends javax.swing.JFrame {
 
         jPanel6.setLayout(new java.awt.GridLayout(10, 0));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Pilih Gender", "Pria", "Wanita", " " }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih Gender", "Pria", "Wanita", " " }));
         jPanel6.add(jComboBox1);
 
         jTextField4.setText("jTextField4");
@@ -216,8 +216,9 @@ public class frm_Penyewa extends javax.swing.JFrame {
 
         panel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 130, 230, 30));
 
-        jButton8.setFont(new java.awt.Font("Times New Roman", 1, 11)); // NOI18N
-        jButton8.setText("EXIT");
+        jButton8.setBackground(new java.awt.Color(255, 204, 0));
+        jButton8.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        jButton8.setText("Tutup");
         jButton8.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton8MouseClicked(evt);
@@ -228,16 +229,16 @@ public class frm_Penyewa extends javax.swing.JFrame {
                 jButton8ActionPerformed(evt);
             }
         });
-        panel1.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 0, 110, 50));
+        panel1.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 10, 90, 30));
 
         getContentPane().add(panel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 1180, 660));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnCariPenghuniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariPenghuniActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnCariPenghuniActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
@@ -245,10 +246,11 @@ public class frm_Penyewa extends javax.swing.JFrame {
 
     private void jButton8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8MouseClicked
         // TODO add your handling code here:
-        int pilihan = JOptionPane.showConfirmDialog(this,"Apa anda yakin ingin Keluar","Exit",JOptionPane.YES_NO_OPTION);
-        if (pilihan==0) {
-            System.exit(0);
-        }
+//        int pilihan = JOptionPane.showConfirmDialog(this,"Apa anda yakin ingin Keluar","Exit",JOptionPane.YES_NO_OPTION);
+//        if (pilihan==0) {
+//            System.exit(0);
+//        }
+        dispose();
     }//GEN-LAST:event_jButton8MouseClicked
 
     /**
@@ -268,35 +270,36 @@ public class frm_Penyewa extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(frm_Penyewa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frm_Penghuni.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(frm_Penyewa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frm_Penghuni.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(frm_Penyewa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frm_Penghuni.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(frm_Penyewa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frm_Penghuni.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new frm_Penyewa().setVisible(true);
+                new frm_Penghuni().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCariPenghuni;
+    private javax.swing.JComboBox<String> cbCariPenghuni;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

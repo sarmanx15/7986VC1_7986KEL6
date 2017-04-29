@@ -32,25 +32,25 @@ public class frm_Fasilitas extends javax.swing.JFrame {
         layoutStyle1 = new org.jdesktop.layout.LayoutStyle();
         panelGlass1 = new usu.widget.glass.PanelGlass();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnSimpanFasilitas = new javax.swing.JButton();
+        btnTambahFasilitas = new javax.swing.JButton();
+        btnEditFasilitas = new javax.swing.JButton();
+        btnHapusFasilitas = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton6 = new javax.swing.JButton();
+        tblFasilitas = new javax.swing.JTable();
+        btnTutupFasilitas = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        tfNomorFasilitas = new javax.swing.JTextField();
+        tfNamaFasilitas = new javax.swing.JTextField();
+        tfHargaFasilitas = new javax.swing.JTextField();
+        tfStatusFasilitas = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox();
-        jButton5 = new javax.swing.JButton();
+        cbFilterFasilitas = new javax.swing.JComboBox();
+        btnCariFasilitas = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        jTextField5 = new javax.swing.JTextField();
+        tfCariFasilitas = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -59,30 +59,30 @@ public class frm_Fasilitas extends javax.swing.JFrame {
 
         jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton1.setText("SIMPAN");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnSimpanFasilitas.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnSimpanFasilitas.setText("SIMPAN");
+        btnSimpanFasilitas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnSimpanFasilitasActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1);
+        jPanel1.add(btnSimpanFasilitas);
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton2.setText("TAMBAH");
-        jPanel1.add(jButton2);
+        btnTambahFasilitas.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnTambahFasilitas.setText("TAMBAH");
+        jPanel1.add(btnTambahFasilitas);
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton3.setText("EDIT");
-        jPanel1.add(jButton3);
+        btnEditFasilitas.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnEditFasilitas.setText("EDIT");
+        jPanel1.add(btnEditFasilitas);
 
-        jButton4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton4.setText("HAPUS");
-        jPanel1.add(jButton4);
+        btnHapusFasilitas.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnHapusFasilitas.setText("HAPUS");
+        jPanel1.add(btnHapusFasilitas);
 
         panelGlass1.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(31, 294, 362, 50));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblFasilitas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -93,64 +93,65 @@ public class frm_Fasilitas extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblFasilitas);
 
         panelGlass1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 180, 710, 380));
 
-        jButton6.setFont(new java.awt.Font("Times New Roman", 1, 11)); // NOI18N
-        jButton6.setText("EXIT");
-        jButton6.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnTutupFasilitas.setBackground(new java.awt.Color(240, 217, 39));
+        btnTutupFasilitas.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnTutupFasilitas.setText("Tutup");
+        btnTutupFasilitas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton6MouseClicked(evt);
+                btnTutupFasilitasMouseClicked(evt);
             }
         });
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        btnTutupFasilitas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                btnTutupFasilitasActionPerformed(evt);
             }
         });
-        panelGlass1.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 10, 100, 40));
+        panelGlass1.add(btnTutupFasilitas, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 10, 100, 40));
 
-        jPanel2.setLayout(new java.awt.GridLayout(4, 0));
+        jPanel2.setLayout(new java.awt.GridLayout(4, 0, 0, 4));
 
-        jTextField1.setText("jTextField1");
-        jPanel2.add(jTextField1);
+        tfNomorFasilitas.setText("jTextField1");
+        jPanel2.add(tfNomorFasilitas);
 
-        jTextField2.setText("jTextField2");
-        jPanel2.add(jTextField2);
+        tfNamaFasilitas.setText("jTextField2");
+        jPanel2.add(tfNamaFasilitas);
 
-        jTextField3.setText("jTextField3");
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        tfHargaFasilitas.setText("jTextField3");
+        tfHargaFasilitas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                tfHargaFasilitasActionPerformed(evt);
             }
         });
-        jPanel2.add(jTextField3);
+        jPanel2.add(tfHargaFasilitas);
 
-        jTextField4.setText("jTextField4");
-        jPanel2.add(jTextField4);
+        tfStatusFasilitas.setText("jTextField4");
+        jPanel2.add(tfStatusFasilitas);
 
         panelGlass1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 130, 190, 120));
 
-        jPanel3.setLayout(new java.awt.GridLayout());
+        jPanel3.setLayout(new java.awt.GridLayout(1, 0));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel3.add(jComboBox1);
+        cbFilterFasilitas.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Berdasarkan", "Harga", "Nama", "Status" }));
+        jPanel3.add(cbFilterFasilitas);
 
-        jButton5.setText("CARI");
-        jPanel3.add(jButton5);
+        btnCariFasilitas.setText("CARI");
+        jPanel3.add(btnCariFasilitas);
 
         panelGlass1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 140, 280, 30));
 
         jPanel4.setLayout(new java.awt.BorderLayout());
 
-        jTextField5.setText("jTextField5");
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+        tfCariFasilitas.setText("jTextField5");
+        tfCariFasilitas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
+                tfCariFasilitasActionPerformed(evt);
             }
         });
-        jPanel4.add(jTextField5, java.awt.BorderLayout.CENTER);
+        jPanel4.add(tfCariFasilitas, java.awt.BorderLayout.CENTER);
 
         panelGlass1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 140, 230, 30));
 
@@ -159,29 +160,30 @@ public class frm_Fasilitas extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnSimpanFasilitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanFasilitasActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnSimpanFasilitasActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void tfHargaFasilitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfHargaFasilitasActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_tfHargaFasilitasActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void btnTutupFasilitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTutupFasilitasActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_btnTutupFasilitasActionPerformed
 
-    private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
+    private void btnTutupFasilitasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTutupFasilitasMouseClicked
         // TODO add your handling code here:
-         int pilihan = JOptionPane.showConfirmDialog(this,"Apa anda yakin ingin Keluar","Exit",JOptionPane.YES_NO_OPTION);
-        if (pilihan==0) {
-            System.exit(0);
-        }    
-    }//GEN-LAST:event_jButton6MouseClicked
+//         int pilihan = JOptionPane.showConfirmDialog(this,"Apa anda yakin ingin Keluar","Exit",JOptionPane.YES_NO_OPTION);
+//        if (pilihan==0) {
+//            System.exit(0);
+//        }    
+        dispose();
+    }//GEN-LAST:event_btnTutupFasilitasMouseClicked
 
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+    private void tfCariFasilitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfCariFasilitasActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
+    }//GEN-LAST:event_tfCariFasilitasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -219,25 +221,25 @@ public class frm_Fasilitas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JButton btnCariFasilitas;
+    private javax.swing.JButton btnEditFasilitas;
+    private javax.swing.JButton btnHapusFasilitas;
+    private javax.swing.JButton btnSimpanFasilitas;
+    private javax.swing.JButton btnTambahFasilitas;
+    private javax.swing.JButton btnTutupFasilitas;
+    private javax.swing.JComboBox cbFilterFasilitas;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     private org.jdesktop.layout.LayoutStyle layoutStyle1;
     private usu.widget.glass.PanelGlass panelGlass1;
+    private javax.swing.JTable tblFasilitas;
+    private javax.swing.JTextField tfCariFasilitas;
+    private javax.swing.JTextField tfHargaFasilitas;
+    private javax.swing.JTextField tfNamaFasilitas;
+    private javax.swing.JTextField tfNomorFasilitas;
+    private javax.swing.JTextField tfStatusFasilitas;
     // End of variables declaration//GEN-END:variables
 }
