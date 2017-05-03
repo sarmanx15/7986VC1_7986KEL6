@@ -119,6 +119,7 @@ public class frm_Penghuni extends javax.swing.JFrame {
         tfNomorTelpPekerjaan.setText("");
         tfPasFoto.setText("");
         tfFotoKTP.setText("");
+        tfCariPenghuni.setText("");
     }
     
     private void KunciField(Boolean x){
@@ -171,6 +172,28 @@ public class frm_Penghuni extends javax.swing.JFrame {
             btnSimpan.setEnabled(true);
         }
      }
+    
+    private void PencarianData(String by, String cari){
+        try{
+            String sql = "Select *from penyewa where "+by+" Like '%"+cari+"%';";
+            stt = con.createStatement();
+            rss = stt.executeQuery(sql);
+            while(rss.next()){
+                Object[] data = new Object[6];
+                data[0] = rss.getString("id_penyewa");
+                data[1] = rss.getString("nama");
+                data[2] = rss.getString("alamat");
+                data[3] = rss.getString("jk");
+                data[4] = rss.getString("nohp");
+                data[5] = rss.getString("email");
+                model.addRow(data);
+            }
+        }
+            catch(Exception e){
+                    System.out.println(e.getMessage());
+                    }
+        
+    }
     /**
      * Creates new form frm_Penyewa
      */
@@ -219,7 +242,7 @@ public class frm_Penghuni extends javax.swing.JFrame {
         tfFotoKTP = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
-        jTextField13 = new javax.swing.JTextField();
+        tfCariPenghuni = new javax.swing.JTextField();
         jButton8 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -297,7 +320,7 @@ public class frm_Penghuni extends javax.swing.JFrame {
 
         jPanel4.setLayout(new java.awt.GridLayout(1, 0));
 
-        cbCariPenghuni.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Berdasarkan", "Nama", "No. Kamar", "Gender" }));
+        cbCariPenghuni.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Berdasarkan", "nama", "alamat", "gender" }));
         jPanel4.add(cbCariPenghuni);
 
         btnCariPenghuni.setText("Cari");
@@ -433,8 +456,8 @@ public class frm_Penghuni extends javax.swing.JFrame {
 
         jPanel7.setLayout(new java.awt.BorderLayout());
 
-        jTextField13.setText("jTextField13");
-        jPanel7.add(jTextField13, java.awt.BorderLayout.CENTER);
+        tfCariPenghuni.setText("jTextField13");
+        jPanel7.add(tfCariPenghuni, java.awt.BorderLayout.CENTER);
 
         panel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 130, 230, 30));
 
@@ -460,6 +483,22 @@ public class frm_Penghuni extends javax.swing.JFrame {
 
     private void btnCariPenghuniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariPenghuniActionPerformed
         // TODO add your handling code here:
+        if(cbCariPenghuni.getSelectedItem().equals("Berdasarkan")){//jika pada combobox yang terseleksi masih"cari bardasarkan, maka jalankan perintah berikut
+             JOptionPane.showMessageDialog(null, "Pilih Filter Pencarian","Konfirmasi",JOptionPane.INFORMATION_MESSAGE);
+             //sintak diatas untuk menampilkan pesan dialog beruppa kofirmasi
+        }
+        else{
+            
+            InitTable();
+            if(tfCariPenghuni.getText().length()==0){
+                TampilDataPenghuni();
+            }
+            else{
+                
+                PencarianData(cbCariPenghuni.getSelectedItem().toString(), tfCariPenghuni.getText());
+
+            }
+        }
     }//GEN-LAST:event_btnCariPenghuniActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
@@ -727,12 +766,12 @@ public class frm_Penghuni extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField13;
     private org.jdesktop.layout.LayoutStyle layoutStyle1;
     private usu.widget.Panel panel1;
     private javax.swing.JTable tblPenghuni;
     private javax.swing.JTextField tfAlamatPekerjaan;
     private javax.swing.JTextField tfAlamatPenghuni;
+    private javax.swing.JTextField tfCariPenghuni;
     private javax.swing.JTextField tfEmail;
     private javax.swing.JTextField tfFotoKTP;
     private javax.swing.JTextField tfNamaPenghuni;
