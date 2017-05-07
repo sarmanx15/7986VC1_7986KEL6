@@ -276,7 +276,7 @@ public class frm_Penghuni extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tblPenghuni);
 
-        panel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 180, 690, -1));
+        panel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 160, 690, -1));
 
         jPanel1.setLayout(new java.awt.GridLayout(1, 0, 5, 0));
 
