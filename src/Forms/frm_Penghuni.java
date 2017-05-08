@@ -6,8 +6,11 @@
 package Forms;
 
 import Class.koneksi;
+import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 import java.sql.*;
@@ -17,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -27,13 +31,14 @@ import javax.swing.table.DefaultTableModel;
  * @author acer
  */
 public class frm_Penghuni extends javax.swing.JFrame {
-    
+
     private DefaultTableModel model;
     private Connection con = koneksi.getConnection();
     private Statement stt;
     private ResultSet rss;
-    
-    public void InitTable(){
+    private BufferedImage image;
+
+    public void InitTable() {
         model = new DefaultTableModel();
         model.addColumn("ID");
         model.addColumn("NAMA");
@@ -42,48 +47,47 @@ public class frm_Penghuni extends javax.swing.JFrame {
         model.addColumn("NO. TELP");
         model.addColumn("EMAIL");
 //        model.addColumn("NO. KTP");
-        
+
 //        model.addColumn("PEKERJAAN");
 //        model.addColumn("ALMT PEKERJAAN");
 //        model.addColumn("NO TELP PEKERJAAN");
 //        model.addColumn("PAS FOTO");
 //        model.addColumn("FOTO KTP");
         tblPenghuni.setModel(model);
-        
-        
+
     }
-    private void TambahDataPenghuni(String nama, String alamat, String tempat_lahir, String tgl_lahir, String jk, String email, String noktp, String nohp, String pekerjaan, String alamat_kerja, String notelp_kerja, String foto_wajah, String foto_ktp){
-        try{
-            String sql = "INSERT INTO penyewa VALUES(NULL,'"+nama+"','"+alamat+"','"+tempat_lahir+"','"+tgl_lahir+"','"+jk+"','"+noktp+"','"+email+"','"+nohp+"','"+pekerjaan+"','"+alamat_kerja+"','"+notelp_kerja+"','"+foto_wajah+"','"+foto_ktp+"');";
+
+    private void TambahDataPenghuni(String nama, String alamat, String tempat_lahir, String tgl_lahir, String jk, String email, String noktp, String nohp, String pekerjaan, String alamat_kerja, String notelp_kerja, String foto_wajah, String foto_ktp) {
+        try {
+            String sql = "INSERT INTO penyewa VALUES(NULL,'" + nama + "','" + alamat + "','" + tempat_lahir + "','" + tgl_lahir + "','" + jk + "','" + noktp + "','" + email + "','" + nohp + "','" + pekerjaan + "','" + alamat_kerja + "','" + notelp_kerja + "','" + foto_wajah + "','" + foto_ktp + "');";
             stt = con.createStatement();
             stt.executeUpdate(sql);
             model.addRow(new Object[]{nama, alamat, tempat_lahir, tgl_lahir, jk, email, noktp, nohp, pekerjaan, alamat_kerja, notelp_kerja, foto_wajah, foto_ktp});
-        }catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         InitTable();
         TampilDataPenghuni();
     }
-    
-    public boolean UbahDataPenghuni(String id_penyewa, String nama, String alamat, String tempat_lahir, String tgl_lahir, String jk, String email, String noktp, String nohp, String pekerjaan, String alamat_kerja, String notelp_kerja, String foto_wajah, String foto_ktp){
-        try{
-            String sql = "UPDATE penyewa set nama = '"+nama+"', alamat = '"+alamat+"', tempat_lahir = '"+tempat_lahir+"', tgl_lahir = '"+tgl_lahir+"', jk = '"+jk+"', email = '"+email+"', noktp = '"+nohp+"', pekerjaan= '"+pekerjaan+"', alamat_kerja = '"+alamat_kerja+"', notelp_kerja = '"+notelp_kerja+"', foto_wajah= '"+foto_wajah+"', foto_ktp= '"+foto_ktp+"' WHERE id_penyewa = "+id_penyewa+";";
+
+    public boolean UbahDataPenghuni(String id_penyewa, String nama, String alamat, String tempat_lahir, String tgl_lahir, String jk, String email, String noktp, String nohp, String pekerjaan, String alamat_kerja, String notelp_kerja, String foto_wajah, String foto_ktp) {
+        try {
+            String sql = "UPDATE penyewa set nama = '" + nama + "', alamat = '" + alamat + "', tempat_lahir = '" + tempat_lahir + "', tgl_lahir = '" + tgl_lahir + "', jk = '" + jk + "', email = '" + email + "', noktp = '" + nohp + "', pekerjaan= '" + pekerjaan + "', alamat_kerja = '" + alamat_kerja + "', notelp_kerja = '" + notelp_kerja + "', foto_wajah= '" + foto_wajah + "', foto_ktp= '" + foto_ktp + "' WHERE id_penyewa = " + id_penyewa + ";";
             stt = con.createStatement();
             stt.executeUpdate(sql);
             return true;
-        }
-        catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             return false;
         }
     }
-    
-    private void TampilDataPenghuni(){
-        try{
+
+    private void TampilDataPenghuni() {
+        try {
             String sql = "Select *from penyewa;";
             stt = con.createStatement();
             rss = stt.executeQuery(sql);
-            while(rss.next()){
+            while (rss.next()) {
                 Object[] o = new Object[6];
 //                o[0] = rss.getString("nama");
 //                o[1] = rss.getString("alamat");
@@ -107,12 +111,12 @@ public class frm_Penghuni extends javax.swing.JFrame {
 
                 model.addRow(o);
             }
-        }catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
-    
-    private void bersihkanfield(){
+
+    private void bersihkanfield() {
         tfNamaPenghuni.setText("");
         tfAlamatPenghuni.setText("");
         tfTempatLahirPenghuni.setText("");
@@ -128,8 +132,8 @@ public class frm_Penghuni extends javax.swing.JFrame {
         tfNomorKTP.setText("");
         tfCariPenghuni.setText("");
     }
-    
-    private void KunciField(Boolean x){
+
+    private void KunciField(Boolean x) {
         tfNamaPenghuni.setEnabled(x);
         tfAlamatPenghuni.setEnabled(x);
         tfTempatLahirPenghuni.setEnabled(x);
@@ -143,49 +147,47 @@ public class frm_Penghuni extends javax.swing.JFrame {
         tfNomorTelpPekerjaan.setEnabled(x);
         tfPasFoto.setEnabled(x);
         tfNomorKTP.setEnabled(x);
-        
+
     }
-    
-    public boolean HapusData(String id){
-        try{
-            String sql = "DELETE FROM penyewa WHERE id_penyewa = "+id+";";
+
+    public boolean HapusData(String id) {
+        try {
+            String sql = "DELETE FROM penyewa WHERE id_penyewa = " + id + ";";
             stt = con.createStatement();
             stt.executeUpdate(sql);
             return true;
-        }
-        catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             return false;
         }
     }
-    
-    public void cekstatus(){
-         if(tfNamaPenghuni.getText().length()==0 ||
-        tfAlamatPenghuni.getText().length()==0 ||
-        tfTempatLahirPenghuni.getText().length()==0 ||
-        dcTanggalLahirPenghuni.getDate() == null ||
-        cbGender.getSelectedItem().equals("Pilih Gender") ||
-        tfEmail.getText().length()==0 ||
-        tfNomorKTP.getText().length()==0 ||
-        tfNomorTelp.getText().length()==0 ||
-        tfPekerjaan.getText().length()==0 ||
-        tfAlamatPekerjaan.getText().length()==0 ||
-        tfNomorTelpPekerjaan.getText().length()==0 ||
-        tfPasFoto.getText().length()==0 ||
-        tfNomorKTP.getText().length()==0 ){
+
+    public void cekstatus() {
+        if (tfNamaPenghuni.getText().length() == 0
+                || tfAlamatPenghuni.getText().length() == 0
+                || tfTempatLahirPenghuni.getText().length() == 0
+                || dcTanggalLahirPenghuni.getDate() == null
+                || cbGender.getSelectedItem().equals("Pilih Gender")
+                || tfEmail.getText().length() == 0
+                || tfNomorKTP.getText().length() == 0
+                || tfNomorTelp.getText().length() == 0
+                || tfPekerjaan.getText().length() == 0
+                || tfAlamatPekerjaan.getText().length() == 0
+                || tfNomorTelpPekerjaan.getText().length() == 0
+                || tfPasFoto.getText().length() == 0
+                || tfNomorKTP.getText().length() == 0) {
             btnSimpan.setEnabled(false);
-        }
-        else{
+        } else {
             btnSimpan.setEnabled(true);
         }
-     }
-    
-    private void PencarianData(String by, String cari){
-        try{
-            String sql = "Select *from penyewa where "+by+" Like '%"+cari+"%';";
+    }
+
+    private void PencarianData(String by, String cari) {
+        try {
+            String sql = "Select *from penyewa where " + by + " Like '%" + cari + "%';";
             stt = con.createStatement();
             rss = stt.executeQuery(sql);
-            while(rss.next()){
+            while (rss.next()) {
                 Object[] data = new Object[6];
                 data[0] = rss.getString("id_penyewa");
                 data[1] = rss.getString("nama");
@@ -195,12 +197,12 @@ public class frm_Penghuni extends javax.swing.JFrame {
                 data[5] = rss.getString("email");
                 model.addRow(data);
             }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
-            catch(Exception e){
-                    System.out.println(e.getMessage());
-                    }
-        
+
     }
+
     /**
      * Creates new form frm_Penyewa
      */
@@ -233,8 +235,6 @@ public class frm_Penghuni extends javax.swing.JFrame {
         cbGender = new javax.swing.JComboBox<>();
         tfEmail = new javax.swing.JTextField();
         jButton8 = new javax.swing.JButton();
-        jPanel8 = new javax.swing.JPanel();
-        pnlFoto = new javax.swing.JPanel();
         cbCariPenghuni = new javax.swing.JComboBox<>();
         btnCariPenghuni = new javax.swing.JButton();
         tfCariPenghuni = new javax.swing.JTextField();
@@ -253,6 +253,8 @@ public class frm_Penghuni extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblPenghuni = new javax.swing.JTable();
+        pnlFoto = new usu.widget.Panel();
+        pnlKTP = new usu.widget.Panel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -367,8 +369,6 @@ public class frm_Penghuni extends javax.swing.JFrame {
             }
         });
         panel1.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 20, 110, 30));
-        panel1.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(1168, 168, 150, 80));
-        panel1.add(pnlFoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(945, 167, 60, 80));
 
         cbCariPenghuni.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Berdasarkan", "nama", "alamat", "gender" }));
         panel1.add(cbCariPenghuni, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 449, 190, 30));
@@ -431,6 +431,11 @@ public class frm_Penghuni extends javax.swing.JFrame {
         jPanel2.setLayout(new java.awt.GridLayout(1, 0, 4, 4));
 
         btnCariFoto.setText("Cari");
+        btnCariFoto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCariFotoActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnCariFoto);
 
         tfPasFoto.setText("jTextField1");
@@ -441,6 +446,11 @@ public class frm_Penghuni extends javax.swing.JFrame {
         jPanel3.setLayout(new java.awt.GridLayout(1, 0, 4, 4));
 
         btnCariKTP.setText("Cari");
+        btnCariKTP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCariKTPActionPerformed(evt);
+            }
+        });
         jPanel3.add(btnCariKTP);
 
         tfPasKTP.setText("jTextField2");
@@ -480,6 +490,32 @@ public class frm_Penghuni extends javax.swing.JFrame {
 
         panel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 487, 1320, 200));
 
+        org.jdesktop.layout.GroupLayout pnlFotoLayout = new org.jdesktop.layout.GroupLayout(pnlFoto);
+        pnlFoto.setLayout(pnlFotoLayout);
+        pnlFotoLayout.setHorizontalGroup(
+            pnlFotoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 70, Short.MAX_VALUE)
+        );
+        pnlFotoLayout.setVerticalGroup(
+            pnlFotoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 80, Short.MAX_VALUE)
+        );
+
+        panel1.add(pnlFoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(943, 168, 70, 80));
+
+        org.jdesktop.layout.GroupLayout pnlKTPLayout = new org.jdesktop.layout.GroupLayout(pnlKTP);
+        pnlKTP.setLayout(pnlKTPLayout);
+        pnlKTPLayout.setHorizontalGroup(
+            pnlKTPLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 150, Short.MAX_VALUE)
+        );
+        pnlKTPLayout.setVerticalGroup(
+            pnlKTPLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 90, Short.MAX_VALUE)
+        );
+
+        panel1.add(pnlKTP, new org.netbeans.lib.awtextra.AbsoluteConstraints(1167, 166, 150, 90));
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -500,18 +536,16 @@ public class frm_Penghuni extends javax.swing.JFrame {
 
     private void btnCariPenghuniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariPenghuniActionPerformed
         // TODO add your handling code here:
-        if(cbCariPenghuni.getSelectedItem().equals("Berdasarkan")){//jika pada combobox yang terseleksi masih"cari bardasarkan, maka jalankan perintah berikut
-             JOptionPane.showMessageDialog(null, "Pilih Filter Pencarian","Konfirmasi",JOptionPane.INFORMATION_MESSAGE);
-             //sintak diatas untuk menampilkan pesan dialog beruppa kofirmasi
-        }
-        else{
-            
+        if (cbCariPenghuni.getSelectedItem().equals("Berdasarkan")) {//jika pada combobox yang terseleksi masih"cari bardasarkan, maka jalankan perintah berikut
+            JOptionPane.showMessageDialog(null, "Pilih Filter Pencarian", "Konfirmasi", JOptionPane.INFORMATION_MESSAGE);
+            //sintak diatas untuk menampilkan pesan dialog beruppa kofirmasi
+        } else {
+
             InitTable();
-            if(tfCariPenghuni.getText().length()==0){
+            if (tfCariPenghuni.getText().length() == 0) {
                 TampilDataPenghuni();
-            }
-            else{
-                
+            } else {
+
                 PencarianData(cbCariPenghuni.getSelectedItem().toString(), tfCariPenghuni.getText());
 
             }
@@ -541,12 +575,12 @@ public class frm_Penghuni extends javax.swing.JFrame {
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
         // TODO add your handling code here:
-        
+
         String nama = tfNamaPenghuni.getText();
         String alamat = tfAlamatPenghuni.getText();
         String t4_lahir = tfTempatLahirPenghuni.getText();
-        DateFormat dateFormat = new SimpleDateFormat( "yyyy-MM-dd");
-        
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
         String tgl_lahir = dateFormat.format(dcTanggalLahirPenghuni.getDate());
         String gender = cbGender.getSelectedItem().toString();
         String email = tfEmail.getText();
@@ -557,11 +591,11 @@ public class frm_Penghuni extends javax.swing.JFrame {
         String nt_pekerjaan = tfNomorTelpPekerjaan.getText();
         String pasfoto = tfPasFoto.getText();
         String foto_ktp = tfNomorKTP.getText();
-        
+
         TambahDataPenghuni(nama, alamat, t4_lahir, tgl_lahir, gender, email, no_ktp, no_telp, pekerjaan, alamat_pekerjaan, nt_pekerjaan, pasfoto, foto_ktp);
         bersihkanfield();
         KunciField(false);
-        
+
     }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
@@ -571,8 +605,8 @@ public class frm_Penghuni extends javax.swing.JFrame {
         String nama = tfNamaPenghuni.getText();
         String alamat = tfAlamatPenghuni.getText();
         String t4_lahir = tfTempatLahirPenghuni.getText();
-        DateFormat dateFormat = new SimpleDateFormat( "yyyy-MM-dd");
-        
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
         String tgl_lahir = dateFormat.format(dcTanggalLahirPenghuni.getDate());
         String gender = cbGender.getSelectedItem().toString();
         String email = tfEmail.getText();
@@ -583,31 +617,30 @@ public class frm_Penghuni extends javax.swing.JFrame {
         String nt_pekerjaan = tfNomorTelpPekerjaan.getText();
         String pasfoto = tfPasFoto.getText();
         String foto_ktp = tfNomorKTP.getText();
-        if(UbahDataPenghuni(id, nama, alamat, t4_lahir, tgl_lahir, gender, email, no_ktp, no_telp, pekerjaan, alamat_pekerjaan, nt_pekerjaan, pasfoto, foto_ktp)){
+        if (UbahDataPenghuni(id, nama, alamat, t4_lahir, tgl_lahir, gender, email, no_ktp, no_telp, pekerjaan, alamat_pekerjaan, nt_pekerjaan, pasfoto, foto_ktp)) {
             JOptionPane.showMessageDialog(null, "Berhasil Ubah Data");
             InitTable();
             TampilDataPenghuni();
             bersihkanfield();
             KunciField(false);
             btnSimpan.setEnabled(false);
-        }
-        else{
+        } else {
             JOptionPane.showConfirmDialog(null, "Gagal Ubah Data");
-            
+
         }
-        
+
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void tblPenghuniMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPenghuniMouseClicked
         // TODO add your handling code here:
         int baris = tblPenghuni.getSelectedRow();
         String id_penyewa = tblPenghuni.getValueAt(baris, 0).toString();
-        
-        try{
-            String sql = "Select *from penyewa where id_penyewa = "+id_penyewa+";";
+
+        try {
+            String sql = "Select *from penyewa where id_penyewa = " + id_penyewa + ";";
             stt = con.createStatement();
             rss = stt.executeQuery(sql);
-            while(rss.next()){
+            while (rss.next()) {
                 Object[] o = new Object[14];
                 o[0] = rss.getString("id_penyewa");
                 o[1] = rss.getString("nama");
@@ -639,8 +672,8 @@ public class frm_Penghuni extends javax.swing.JFrame {
 //                tfFotoKTP.setText(tblPenghuni.getValueAt(baris, 13).toString());
                 tfAlamatPenghuni.setText(o[2].toString());
                 tfTempatLahirPenghuni.setText(o[3].toString());
-                
-                DateFormat dateFormat = new SimpleDateFormat( "yyyy-MM-dd");
+
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 dcTanggalLahirPenghuni.setDate(dateFormat.parse(o[4].toString()));
                 cbGender.setSelectedItem(o[5]);
                 tfEmail.setText(o[6].toString());
@@ -652,25 +685,24 @@ public class frm_Penghuni extends javax.swing.JFrame {
                 tfPasFoto.setText(o[12].toString());
                 tfNomorKTP.setText(o[13].toString());
             }
-        }catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         } catch (ParseException ex) {
             Logger.getLogger(frm_Penghuni.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_tblPenghuniMouseClicked
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
         // TODO add your handling code here:
         int baris = tblPenghuni.getSelectedRow();
         String id = tblPenghuni.getValueAt(baris, 0).toString();
-        
-        if(HapusData(id)){
+
+        if (HapusData(id)) {
             JOptionPane.showMessageDialog(null, "Berhasil Hapus Data");
-        }
-        else{
+        } else {
             JOptionPane.showConfirmDialog(null, "Gagal Hapus Data");
-            
+
         }
         InitTable();
         TampilDataPenghuni();
@@ -718,6 +750,49 @@ public class frm_Penghuni extends javax.swing.JFrame {
     private void tfNomorKTPCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfNomorKTPCaretUpdate
         cekstatus();
     }//GEN-LAST:event_tfNomorKTPCaretUpdate
+
+    private void btnCariFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariFotoActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fc = new JFileChooser(); 
+        int returnVal = fc.showOpenDialog(frm_Penghuni.this); 
+        if (returnVal == fc.APPROVE_OPTION ) { 
+            File file = fc.getSelectedFile(); //hanya nama file saja 
+            tfPasFoto.setText(file.getPath()); 
+            // ImageIcon pic = new ImageIcon("C:\\Documents and Settings\\All Users\\Documents\\My Pictures\\Sample Pictures\\Winter.jpg"); 
+            // jButton2.setIcon(new javax.swing.ImageIcon("E:\\photo.GIF")); 
+            //ImageIcon pic = new ImageIcon(tfPasFoto.getText());
+            ImageIcon pic = new ImageIcon(file.getAbsolutePath());
+
+            // Get width and height of picLabel
+            Rectangle rect = pnlFoto.getBounds();
+            // Scaling the Image to fit in the picLabel
+            Image scaledimage = pic.getImage().getScaledInstance(rect.width,rect.height,Image.SCALE_DEFAULT);
+            // Converting the image back to ImageIcon to make it acceptable by picLabel
+            pic = new ImageIcon(scaledimage);
+            pnlFoto.setBackgroundImage(pic); 
+        }
+    }//GEN-LAST:event_btnCariFotoActionPerformed
+
+    private void btnCariKTPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariKTPActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fc1 = new JFileChooser(); 
+        int returnVal = fc1.showOpenDialog(frm_Penghuni.this); 
+        if (returnVal == fc1.APPROVE_OPTION ) { 
+            File file = fc1.getSelectedFile(); //hanya nama file saja 
+            tfPasKTP.setText(file.getPath()); 
+            // ImageIcon pic = new ImageIcon("C:\\Documents and Settings\\All Users\\Documents\\My Pictures\\Sample Pictures\\Winter.jpg"); 
+            // jButton2.setIcon(new javax.swing.ImageIcon("E:\\photo.GIF")); 
+            //ImageIcon pic = new ImageIcon(tfPasFoto.getText());
+            ImageIcon pic1 = new ImageIcon(file.getAbsolutePath());
+
+            // Get width and height of picLabel
+            Rectangle rect1 = pnlKTP.getBounds();
+            // Scaling the Image to fit in the picLabel
+            Image scaledimage = pic1.getImage().getScaledInstance(rect1.width,rect1.height,Image.SCALE_DEFAULT);
+            // Converting the image back to ImageIcon to make it acceptable by picLabel
+            pic1 = new ImageIcon(scaledimage);
+        }
+    }//GEN-LAST:event_btnCariKTPActionPerformed
 
     /**
      * @param args the command line arguments
@@ -773,11 +848,11 @@ public class frm_Penghuni extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane2;
     private org.jdesktop.layout.LayoutStyle layoutStyle1;
     private usu.widget.Panel panel1;
-    private javax.swing.JPanel pnlFoto;
+    private usu.widget.Panel pnlFoto;
+    private usu.widget.Panel pnlKTP;
     private javax.swing.JTable tblPenghuni;
     private javax.swing.JTextField tfAlamatPekerjaan;
     private javax.swing.JTextField tfAlamatPenghuni;
