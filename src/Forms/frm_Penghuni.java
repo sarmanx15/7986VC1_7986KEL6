@@ -89,20 +89,6 @@ public class frm_Penghuni extends javax.swing.JFrame {
             rss = stt.executeQuery(sql);
             while (rss.next()) {
                 Object[] o = new Object[6];
-//                o[0] = rss.getString("nama");
-//                o[1] = rss.getString("alamat");
-//                o[2] = rss.getString("tempat_lahir");
-//                o[3] = rss.getDate("tgl_lahir");
-//                o[4] = rss.getString("jk");
-//                o[5] = rss.getString("noktp");
-//                o[6] = rss.getString("nohp");
-//                o[7] = rss.getString("email");
-//                o[8] = rss.getString("pekerjaan");
-//                o[9] = rss.getString("alamat_kerja");
-//                o[10] = rss.getString("notelp_kerja");
-//                o[11] = rss.getString("foto_wajah");
-//                o[12] = rss.getString("foto_ktp");
-                o[0] = rss.getString("id_penyewa");
                 o[1] = rss.getString("nama");
                 o[2] = rss.getString("alamat");
                 o[3] = rss.getString("jk");
