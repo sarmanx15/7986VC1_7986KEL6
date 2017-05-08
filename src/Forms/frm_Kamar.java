@@ -5,17 +5,138 @@
  */
 package Forms;
 
+import Class.koneksi;
+import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author acer
  */
 public class frm_Kamar extends javax.swing.JFrame {
+private DefaultTableModel model;
+private Connection con = koneksi.getConnection();
+private Statement stt;
+private ResultSet rss;
+    
+public void InitTable(){
+    model = new DefaultTableModel();
+        model.addColumn("ID");
+        model.addColumn("NAMA KAMAR");
+        model.addColumn("HARGA SEWA");
+        model.addColumn("STATUS KAMAR");
+        tblKamar.setModel(model);
+}
 
-    /**
-     * Creates new form frm_Kamar
-     */
+private void TampilDataKamar(){
+        try{
+            String sql = "Select *from kamar order by id_kamar asc;";
+            stt = con.createStatement();
+            rss = stt.executeQuery(sql);
+            while(rss.next()){
+                Object[] o = new Object[3];
+                o[0] = rss.getString("id_kamar");
+                o[1] = rss.getString("nama_kamar");
+                o[2] = rss.getString("harga_sewa");
+
+                model.addRow(o);
+            }
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+private void TambahDataKamar(String nama_kamar,String harga_sewa) {
+        try{
+            String sql = "INSERT INTO kamar VALUES(NULL,'"+nama_kamar+"','"+harga_sewa+"');";
+            stt = con.createStatement();
+            stt.executeUpdate(sql);
+            model.addRow(new Object[]{nama_kamar, harga_sewa});
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        InitTable();
+        TampilDataKamar();
+    }
+
+public boolean UbahDataKamar(String id_kamar,String nama_kamar,String harga_sewa ){
+        try{
+            String sql = "UPDATE kamar set nama_kamar = '"+nama_kamar+"', harga_sewa = '"+harga_sewa+"'WHERE id_kamar = "+id_kamar+";";
+            stt = con.createStatement();
+            stt.executeUpdate(sql);
+            return true;
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+private void bersihkanfield(){
+        tfNomorKamar.setText("");
+        tfNamaKamar.setText("");
+        tfHargaKamar.setText("");
+        tfStatusKamar.setText("");
+        tfCariKamar.setText("");
+    }
+
+private void KunciField(Boolean x){
+        tfNomorKamar.setEnabled(x);
+        tfNamaKamar.setEnabled(x);
+        tfHargaKamar.setEnabled(x);
+        tfStatusKamar.setEnabled(x);
+//        btnSimpanKamar.setEnabled(x);
+    }
+
+public boolean HapusData(String id_kamar){
+        try{
+            String sql = "DELETE FROM kamar WHERE id_kamar = "+id_kamar+";";
+            stt = con.createStatement();
+            stt.executeUpdate(sql);
+            return true;
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+private void PencarianData(String by, String cari){
+        try{
+            String sql = "Select *from kamar where "+by+" Like '%"+cari+"%';";
+            stt = con.createStatement();
+            rss = stt.executeQuery(sql);
+            while(rss.next()){
+                Object[] data = new Object[3];
+                data[0] = rss.getString("id_kamar");
+                data[1] = rss.getString("nama_kamar");
+                data[2] = rss.getString("harga_sewa");
+               
+                model.addRow(data);
+            }
+        }
+            catch(Exception e){
+                    System.out.println(e.getMessage());
+                    }
+}
+public void cekstatus(){
+    
+         if(tfNamaKamar.getText().length()==0 ||
+            tfHargaKamar.getText().length()==0 ||
+            tfStatusKamar.getText().length()==0){
+            btnSimpanKamar.setEnabled(false);
+        }
+        else{
+            btnSimpanKamar.setEnabled(true);
+        }
+     }        
+    
     public frm_Kamar() {
         initComponents();
     }
@@ -52,6 +173,11 @@ public class frm_Kamar extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelGlass1.setBackgroundImage(new javax.swing.ImageIcon(getClass().getResource("/IMG/bgFormKamar.png"))); // NOI18N
@@ -61,18 +187,38 @@ public class frm_Kamar extends javax.swing.JFrame {
 
         btnSimpanKamar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnSimpanKamar.setText("SIMPAN");
+        btnSimpanKamar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSimpanKamarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnSimpanKamar);
 
         btnTambahKamar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnTambahKamar.setText("TAMBAH");
+        btnTambahKamar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTambahKamarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnTambahKamar);
 
         btnEditKamar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnEditKamar.setText("EDIT");
+        btnEditKamar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditKamarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnEditKamar);
 
         btnHapusKamar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnHapusKamar.setText("HAPUS");
+        btnHapusKamar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHapusKamarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnHapusKamar);
 
         panelGlass1.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, 360, 40));
@@ -88,6 +234,11 @@ public class frm_Kamar extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblKamar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblKamarMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblKamar);
 
         panelGlass1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 180, 690, 330));
@@ -109,16 +260,32 @@ public class frm_Kamar extends javax.swing.JFrame {
 
         jPanel2.setLayout(new java.awt.GridLayout(4, 0, 0, 5));
 
-        tfNomorKamar.setText("jTextField1");
+        tfNomorKamar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfNomorKamarKeyTyped(evt);
+            }
+        });
         jPanel2.add(tfNomorKamar);
 
-        tfNamaKamar.setText("jTextField2");
+        tfNamaKamar.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                tfNamaKamarCaretUpdate(evt);
+            }
+        });
         jPanel2.add(tfNamaKamar);
 
-        tfHargaKamar.setText("jTextField3");
+        tfHargaKamar.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                tfHargaKamarCaretUpdate(evt);
+            }
+        });
         jPanel2.add(tfHargaKamar);
 
-        tfStatusKamar.setText("jTextField4");
+        tfStatusKamar.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                tfStatusKamarCaretUpdate(evt);
+            }
+        });
         jPanel2.add(tfStatusKamar);
 
         panelGlass1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, 190, 130));
@@ -126,6 +293,11 @@ public class frm_Kamar extends javax.swing.JFrame {
         cbFilterKamar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Berdasarkan", "Harga", "Nama", "Status" }));
 
         btnCariKamar.setText("CARI");
+        btnCariKamar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCariKamarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -146,8 +318,6 @@ public class frm_Kamar extends javax.swing.JFrame {
         panelGlass1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 130, 280, 30));
 
         jPanel4.setLayout(new java.awt.GridLayout(1, 0));
-
-        tfCariKamar.setText("jTextField5");
         jPanel4.add(tfCariKamar);
 
         panelGlass1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 130, 230, 30));
@@ -169,6 +339,157 @@ public class frm_Kamar extends javax.swing.JFrame {
 //        }
         dispose();
     }//GEN-LAST:event_btnKeluarKamarMouseClicked
+
+    private void btnHapusKamarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusKamarActionPerformed
+        // TODO add your handling code here:
+        int baris = tblKamar.getSelectedRow();
+        String id_kamar = tblKamar.getValueAt(baris, 0).toString();
+        
+        if(HapusData(id_kamar)){
+            JOptionPane.showMessageDialog(null, "Berhasil Hapus Data");
+        }
+        else{
+            JOptionPane.showConfirmDialog(null, "Gagal Hapus Data");
+            
+        }
+        InitTable();
+        TampilDataKamar();
+        bersihkanfield();
+        KunciField(false);
+    }//GEN-LAST:event_btnHapusKamarActionPerformed
+
+    private void tblKamarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKamarMouseClicked
+        // TODO add your handling code here:
+        int baris=tblKamar.getSelectedRow();
+        String id_kamar = tblKamar.getValueAt(baris, 0).toString();
+        
+        try{
+            String sql = "Select *from kamar where id_kamar = "+id_kamar+";";
+            stt = con.createStatement();
+            rss = stt.executeQuery(sql);
+            while(rss.next()){
+                Object[] o = new Object[3];
+                o[0] = rss.getString("id_kamar");
+                o[1] = rss.getString("nama_kamar");
+                o[2] = rss.getString("harga_sewa");
+                
+                tfNomorKamar.setText(o[0].toString());
+                tfNamaKamar.setText(o[1].toString());
+                tfHargaKamar.setText(o[2].toString());
+//                KunciField(true);
+//                btnSimpanKamar.setEnabled(false);
+            }
+             }catch(SQLException e){
+            System.out.println(e.getMessage());
+        } 
+//        int baris=tblKamar.getSelectedRow();
+//        String id_kamar=tblKamar.getValueAt(baris, 0).toString();
+//        String nama_kamar=tblKamar.getValueAt(baris,1).toString();
+//        String harga_sewa=tblKamar.getValueAt(baris, 2).toString();
+//        
+//        tfNomorKamar.setText(id_kamar);
+//        tfNamaKamar.setText(nama_kamar);
+//        tfHargaKamar.setText(harga_sewa);
+    }//GEN-LAST:event_tblKamarMouseClicked
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        // TODO add your handling code here:
+        InitTable();
+        TampilDataKamar();
+        bersihkanfield();
+        btnSimpanKamar.setEnabled(false);
+        KunciField(false);
+    }//GEN-LAST:event_formComponentShown
+
+    private void tfNomorKamarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNomorKamarKeyTyped
+        // TODO add your handling code here:
+        char c=evt.getKeyChar();
+        if(!(Character.isDigit(c)||c==KeyEvent.VK_BACK_SPACE||c==KeyEvent.VK_DELETE)){
+            evt.consume();
+        }
+    }//GEN-LAST:event_tfNomorKamarKeyTyped
+
+    private void btnCariKamarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariKamarActionPerformed
+        // TODO add your handling code here:
+        if(cbFilterKamar.getSelectedItem().equals("Berdasarkan")){//jika pada combobox yang terseleksi masih"cari bardasarkan, maka jalankan perintah berikut
+             JOptionPane.showMessageDialog(null, "Pilih Filter Pencarian","Konfirmasi",JOptionPane.INFORMATION_MESSAGE);
+             //sintak diatas untuk menampilkan pesan dialog beruppa kofirmasi
+        }
+        else{
+            
+            InitTable();
+            if(tfCariKamar.getText().length()==0){
+                TampilDataKamar();
+            }
+            else{
+                String b = null;
+                if(cbFilterKamar.getSelectedItem()=="Nama"){
+                 b="nama_kamar";
+            }else if (cbFilterKamar.getSelectedItem()=="Harga"){
+                 b="harga_sewa";
+            }
+            else if (cbFilterKamar.getSelectedItem()=="Status"){
+                 b="Status";
+            }
+                
+                PencarianData(b, tfCariKamar.getText());
+
+            }
+        }
+    }//GEN-LAST:event_btnCariKamarActionPerformed
+
+    private void btnSimpanKamarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanKamarActionPerformed
+        // TODO add your handling code here:
+        String id = tfNomorKamar.getText();
+        String nama_kamar = tfNamaKamar.getText();
+        String harga_sewa = tfHargaKamar.getText();
+//        String status_kamar = tfStatusKamar.getText();
+        
+        TambahDataKamar(nama_kamar, harga_sewa);
+        bersihkanfield();
+        KunciField(false);
+    }//GEN-LAST:event_btnSimpanKamarActionPerformed
+
+    private void btnEditKamarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditKamarActionPerformed
+        // TODO add your handling code here:
+        int baris = tblKamar.getSelectedRow();
+        String id = tblKamar.getValueAt(baris, 0).toString();
+        String nama_kamar = tfNamaKamar.getText();
+        String harga_sewa = tfHargaKamar.getText();
+                
+        if(UbahDataKamar(id, nama_kamar, harga_sewa)){
+            JOptionPane.showMessageDialog(null, "Berhasil Ubah Data");
+            InitTable();
+            TampilDataKamar();
+            bersihkanfield();
+            KunciField(false);
+            btnSimpanKamar.setEnabled(false);
+        }
+        else{
+            JOptionPane.showConfirmDialog(null, "Gagal Ubah Data");
+            
+        }
+    }//GEN-LAST:event_btnEditKamarActionPerformed
+
+    private void btnTambahKamarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahKamarActionPerformed
+        // TODO add your handling code here:
+        KunciField(true);
+    }//GEN-LAST:event_btnTambahKamarActionPerformed
+
+    private void tfNamaKamarCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfNamaKamarCaretUpdate
+        // TODO add your handling code here:
+        cekstatus();
+    }//GEN-LAST:event_tfNamaKamarCaretUpdate
+
+    private void tfHargaKamarCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfHargaKamarCaretUpdate
+        // TODO add your handling code here:
+        cekstatus();
+    }//GEN-LAST:event_tfHargaKamarCaretUpdate
+
+    private void tfStatusKamarCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfStatusKamarCaretUpdate
+        // TODO add your handling code here:
+        cekstatus();
+    }//GEN-LAST:event_tfStatusKamarCaretUpdate
 
     /**
      * @param args the command line arguments
