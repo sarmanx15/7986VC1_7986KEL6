@@ -407,9 +407,9 @@ public void cekstatus(){
         // TODO add your handling code here:
         InitTable();
         TampilDataFasilitas();
-        bersihkanfield();
         btnSimpanFasilitas.setEnabled(false);
         KunciField(false);
+        bersihkanfield();
     }//GEN-LAST:event_formComponentShown
 
     private void tfNomorFasilitasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNomorFasilitasKeyTyped
