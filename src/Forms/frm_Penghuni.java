@@ -94,7 +94,6 @@ public class frm_Penghuni extends javax.swing.JFrame {
                 o[3] = rss.getString("jk");
                 o[4] = rss.getString("nohp");
                 o[5] = rss.getString("email");
-
                 model.addRow(o);
             }
         } catch (SQLException e) {
