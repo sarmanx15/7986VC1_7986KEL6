@@ -6,6 +6,9 @@
 package Forms;
 
 import Class.koneksi;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import javax.swing.JOptionPane;
 import java.sql.*;
 import java.text.DateFormat;
@@ -13,6 +16,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,6 +27,7 @@ import javax.swing.table.DefaultTableModel;
  * @author acer
  */
 public class frm_Penghuni extends javax.swing.JFrame {
+    
     private DefaultTableModel model;
     private Connection con = koneksi.getConnection();
     private Statement stt;
@@ -30,8 +38,6 @@ public class frm_Penghuni extends javax.swing.JFrame {
         model.addColumn("ID");
         model.addColumn("NAMA");
         model.addColumn("ALAMAT");
-//        model.addColumn("TEMPAT LAHIR");
-//        model.addColumn("TGL LAHIR");
         model.addColumn("GENDER");
         model.addColumn("NO. TELP");
         model.addColumn("EMAIL");
@@ -43,6 +49,7 @@ public class frm_Penghuni extends javax.swing.JFrame {
 //        model.addColumn("PAS FOTO");
 //        model.addColumn("FOTO KTP");
         tblPenghuni.setModel(model);
+        
         
     }
     private void TambahDataPenghuni(String nama, String alamat, String tempat_lahir, String tgl_lahir, String jk, String email, String noktp, String nohp, String pekerjaan, String alamat_kerja, String notelp_kerja, String foto_wajah, String foto_ktp){
@@ -118,7 +125,7 @@ public class frm_Penghuni extends javax.swing.JFrame {
         tfAlamatPekerjaan.setText("");
         tfNomorTelpPekerjaan.setText("");
         tfPasFoto.setText("");
-        tfFotoKTP.setText("");
+        tfNomorKTP.setText("");
         tfCariPenghuni.setText("");
     }
     
@@ -135,7 +142,7 @@ public class frm_Penghuni extends javax.swing.JFrame {
         tfAlamatPekerjaan.setEnabled(x);
         tfNomorTelpPekerjaan.setEnabled(x);
         tfPasFoto.setEnabled(x);
-        tfFotoKTP.setEnabled(x);
+        tfNomorKTP.setEnabled(x);
         
     }
     
@@ -165,7 +172,7 @@ public class frm_Penghuni extends javax.swing.JFrame {
         tfAlamatPekerjaan.getText().length()==0 ||
         tfNomorTelpPekerjaan.getText().length()==0 ||
         tfPasFoto.getText().length()==0 ||
-        tfFotoKTP.getText().length()==0 ){
+        tfNomorKTP.getText().length()==0 ){
             btnSimpan.setEnabled(false);
         }
         else{
@@ -199,6 +206,7 @@ public class frm_Penghuni extends javax.swing.JFrame {
      */
     public frm_Penghuni() {
         initComponents();
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH); //untuk maximize frame
     }
 
     /**
@@ -212,71 +220,54 @@ public class frm_Penghuni extends javax.swing.JFrame {
 
         layoutStyle1 = new org.jdesktop.layout.LayoutStyle();
         panel1 = new usu.widget.Panel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tblPenghuni = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         btnSimpan = new javax.swing.JButton();
         btnTambah = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
         btnHapus = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
-        cbCariPenghuni = new javax.swing.JComboBox<>();
-        btnCariPenghuni = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         tfNamaPenghuni = new javax.swing.JTextField();
         tfAlamatPenghuni = new javax.swing.JTextField();
         tfTempatLahirPenghuni = new javax.swing.JTextField();
         dcTanggalLahirPenghuni = new com.toedter.calendar.JDateChooser();
-        jPanel6 = new javax.swing.JPanel();
         cbGender = new javax.swing.JComboBox<>();
         tfEmail = new javax.swing.JTextField();
+        jButton8 = new javax.swing.JButton();
+        jPanel8 = new javax.swing.JPanel();
+        pnlFoto = new javax.swing.JPanel();
+        cbCariPenghuni = new javax.swing.JComboBox<>();
+        btnCariPenghuni = new javax.swing.JButton();
+        tfCariPenghuni = new javax.swing.JTextField();
+        jPanel4 = new javax.swing.JPanel();
         tfNomorKTP = new javax.swing.JTextField();
         tfNomorTelp = new javax.swing.JTextField();
         tfPekerjaan = new javax.swing.JTextField();
         tfAlamatPekerjaan = new javax.swing.JTextField();
         tfNomorTelpPekerjaan = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
+        btnCariFoto = new javax.swing.JButton();
         tfPasFoto = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        tfFotoKTP = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jPanel7 = new javax.swing.JPanel();
-        tfCariPenghuni = new javax.swing.JTextField();
-        jButton8 = new javax.swing.JButton();
+        btnCariKTP = new javax.swing.JButton();
+        tfPasKTP = new javax.swing.JTextField();
+        jPanel6 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblPenghuni = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(1500, 670));
         setResizable(false);
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 formComponentShown(evt);
             }
         });
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panel1.setBackgroundImage(new javax.swing.ImageIcon(getClass().getResource("/IMG/bgFormPenghuni.png"))); // NOI18N
+        panel1.setMinimumSize(new java.awt.Dimension(1340, 750));
+        panel1.setPreferredSize(new java.awt.Dimension(1340, 750));
         panel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        tblPenghuni.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "NAMA", "ALAMAT", "TMPT. LAHIR", "TGL. LAHIR", "GENDER", "EMAIL", "NO. KTP", "NO. TELP", "PEKERJAAN", "ALMT PEKERJAAN", "NO. TELP PEKRJN", "PAS FOTO", "FOTO KTP"
-            }
-        ));
-        tblPenghuni.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblPenghuniMouseClicked(evt);
-            }
-        });
-        jScrollPane2.setViewportView(tblPenghuni);
-
-        panel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 160, 690, -1));
 
         jPanel1.setLayout(new java.awt.GridLayout(1, 0, 5, 0));
 
@@ -316,22 +307,7 @@ public class frm_Penghuni extends javax.swing.JFrame {
         });
         jPanel1.add(btnHapus);
 
-        panel1.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 573, 360, 40));
-
-        jPanel4.setLayout(new java.awt.GridLayout(1, 0));
-
-        cbCariPenghuni.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Berdasarkan", "nama", "alamat", "gender" }));
-        jPanel4.add(cbCariPenghuni);
-
-        btnCariPenghuni.setText("Cari");
-        btnCariPenghuni.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCariPenghuniActionPerformed(evt);
-            }
-        });
-        jPanel4.add(btnCariPenghuni);
-
-        panel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 130, 270, 30));
+        panel1.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 780, 40));
 
         jPanel5.setLayout(new java.awt.GridLayout(0, 1, 0, 4));
 
@@ -364,12 +340,8 @@ public class frm_Penghuni extends javax.swing.JFrame {
         dcTanggalLahirPenghuni.setMinSelectableDate(new java.util.Date(-62135794714000L));
         jPanel5.add(dcTanggalLahirPenghuni);
 
-        panel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 130, 190, 120));
-
-        jPanel6.setLayout(new java.awt.GridLayout(0, 1, 0, 4));
-
         cbGender.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih Gender", "Pria", "Wanita", " " }));
-        jPanel6.add(cbGender);
+        jPanel5.add(cbGender);
 
         tfEmail.setText("jTextField5");
         tfEmail.addCaretListener(new javax.swing.event.CaretListener() {
@@ -377,89 +349,9 @@ public class frm_Penghuni extends javax.swing.JFrame {
                 tfEmailCaretUpdate(evt);
             }
         });
-        jPanel6.add(tfEmail);
+        jPanel5.add(tfEmail);
 
-        tfNomorKTP.setText("jTextField6");
-        tfNomorKTP.addCaretListener(new javax.swing.event.CaretListener() {
-            public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                tfNomorKTPCaretUpdate(evt);
-            }
-        });
-        jPanel6.add(tfNomorKTP);
-
-        tfNomorTelp.setText("jTextField7");
-        tfNomorTelp.addCaretListener(new javax.swing.event.CaretListener() {
-            public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                tfNomorTelpCaretUpdate(evt);
-            }
-        });
-        jPanel6.add(tfNomorTelp);
-
-        tfPekerjaan.setText("jTextField8");
-        tfPekerjaan.addCaretListener(new javax.swing.event.CaretListener() {
-            public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                tfPekerjaanCaretUpdate(evt);
-            }
-        });
-        jPanel6.add(tfPekerjaan);
-
-        tfAlamatPekerjaan.setText("jTextField9");
-        tfAlamatPekerjaan.addCaretListener(new javax.swing.event.CaretListener() {
-            public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                tfAlamatPekerjaanCaretUpdate(evt);
-            }
-        });
-        jPanel6.add(tfAlamatPekerjaan);
-
-        tfNomorTelpPekerjaan.setText("jTextField10");
-        tfNomorTelpPekerjaan.addCaretListener(new javax.swing.event.CaretListener() {
-            public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                tfNomorTelpPekerjaanCaretUpdate(evt);
-            }
-        });
-        jPanel6.add(tfNomorTelpPekerjaan);
-
-        jPanel2.setLayout(new java.awt.GridLayout(1, 0));
-
-        tfPasFoto.setText("jTextField11");
-        tfPasFoto.addCaretListener(new javax.swing.event.CaretListener() {
-            public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                tfPasFotoCaretUpdate(evt);
-            }
-        });
-        jPanel2.add(tfPasFoto);
-
-        jButton1.setText("Browse");
-        jPanel2.add(jButton1);
-
-        jPanel6.add(jPanel2);
-
-        jPanel3.setLayout(new java.awt.GridLayout(1, 0));
-
-        tfFotoKTP.setText("jTextField12");
-        tfFotoKTP.addCaretListener(new javax.swing.event.CaretListener() {
-            public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                tfFotoKTPCaretUpdate(evt);
-            }
-        });
-        jPanel3.add(tfFotoKTP);
-
-        jButton2.setText("Browse");
-        jButton2.setAlignmentY(0.0F);
-        jButton2.setAutoscrolls(true);
-        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jPanel3.add(jButton2);
-
-        jPanel6.add(jPanel3);
-
-        panel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 250, 190, 270));
-
-        jPanel7.setLayout(new java.awt.BorderLayout());
-
-        tfCariPenghuni.setText("jTextField13");
-        jPanel7.add(tfCariPenghuni, java.awt.BorderLayout.CENTER);
-
-        panel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 130, 230, 30));
+        panel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 140, 190, 180));
 
         jButton8.setBackground(new java.awt.Color(255, 204, 0));
         jButton8.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
@@ -474,9 +366,134 @@ public class frm_Penghuni extends javax.swing.JFrame {
                 jButton8ActionPerformed(evt);
             }
         });
-        panel1.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 10, 90, 30));
+        panel1.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 20, 110, 30));
+        panel1.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(1168, 168, 150, 80));
+        panel1.add(pnlFoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(945, 167, 60, 80));
 
-        getContentPane().add(panel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 1180, 660));
+        cbCariPenghuni.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Berdasarkan", "nama", "alamat", "gender" }));
+        panel1.add(cbCariPenghuni, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 449, 190, 30));
+
+        btnCariPenghuni.setText("Cari");
+        btnCariPenghuni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCariPenghuniActionPerformed(evt);
+            }
+        });
+        panel1.add(btnCariPenghuni, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 449, 80, 30));
+
+        tfCariPenghuni.setText("jTextField13");
+        panel1.add(tfCariPenghuni, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 449, 230, 30));
+
+        jPanel4.setLayout(new java.awt.GridLayout(0, 1, 0, 4));
+
+        tfNomorKTP.setText("jTextField12");
+        tfNomorKTP.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                tfNomorKTPCaretUpdate(evt);
+            }
+        });
+        jPanel4.add(tfNomorKTP);
+
+        tfNomorTelp.setText("jTextField7");
+        tfNomorTelp.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                tfNomorTelpCaretUpdate(evt);
+            }
+        });
+        jPanel4.add(tfNomorTelp);
+
+        tfPekerjaan.setText("jTextField8");
+        tfPekerjaan.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                tfPekerjaanCaretUpdate(evt);
+            }
+        });
+        jPanel4.add(tfPekerjaan);
+
+        tfAlamatPekerjaan.setText("jTextField9");
+        tfAlamatPekerjaan.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                tfAlamatPekerjaanCaretUpdate(evt);
+            }
+        });
+        jPanel4.add(tfAlamatPekerjaan);
+
+        tfNomorTelpPekerjaan.setText("jTextField10");
+        tfNomorTelpPekerjaan.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                tfNomorTelpPekerjaanCaretUpdate(evt);
+            }
+        });
+        jPanel4.add(tfNomorTelpPekerjaan);
+
+        panel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(657, 140, 190, 150));
+
+        jPanel2.setLayout(new java.awt.GridLayout(1, 0, 4, 4));
+
+        btnCariFoto.setText("Cari");
+        jPanel2.add(btnCariFoto);
+
+        tfPasFoto.setText("jTextField1");
+        jPanel2.add(tfPasFoto);
+
+        panel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 260, 130, 30));
+
+        jPanel3.setLayout(new java.awt.GridLayout(1, 0, 4, 4));
+
+        btnCariKTP.setText("Cari");
+        jPanel3.add(btnCariKTP);
+
+        tfPasKTP.setText("jTextField2");
+        jPanel3.add(tfPasKTP);
+
+        panel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1168, 260, 130, 30));
+
+        jPanel6.setLayout(new java.awt.GridLayout());
+
+        tblPenghuni.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "NAMA", "ALAMAT", "GENDER", "NO. TELP", "EMAIL"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblPenghuni.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblPenghuniMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblPenghuni);
+
+        jPanel6.add(jScrollPane2);
+
+        panel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 487, 1320, 200));
+
+        org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(layout.createSequentialGroup()
+                .add(panel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 1361, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(0, 0, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(layout.createSequentialGroup()
+                .add(panel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 703, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(0, 0, Short.MAX_VALUE))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -539,7 +556,7 @@ public class frm_Penghuni extends javax.swing.JFrame {
         String alamat_pekerjaan = tfAlamatPekerjaan.getText();
         String nt_pekerjaan = tfNomorTelpPekerjaan.getText();
         String pasfoto = tfPasFoto.getText();
-        String foto_ktp = tfFotoKTP.getText();
+        String foto_ktp = tfNomorKTP.getText();
         
         TambahDataPenghuni(nama, alamat, t4_lahir, tgl_lahir, gender, email, no_ktp, no_telp, pekerjaan, alamat_pekerjaan, nt_pekerjaan, pasfoto, foto_ktp);
         bersihkanfield();
@@ -565,7 +582,7 @@ public class frm_Penghuni extends javax.swing.JFrame {
         String alamat_pekerjaan = tfAlamatPekerjaan.getText();
         String nt_pekerjaan = tfNomorTelpPekerjaan.getText();
         String pasfoto = tfPasFoto.getText();
-        String foto_ktp = tfFotoKTP.getText();
+        String foto_ktp = tfNomorKTP.getText();
         if(UbahDataPenghuni(id, nama, alamat, t4_lahir, tgl_lahir, gender, email, no_ktp, no_telp, pekerjaan, alamat_pekerjaan, nt_pekerjaan, pasfoto, foto_ktp)){
             JOptionPane.showMessageDialog(null, "Berhasil Ubah Data");
             InitTable();
@@ -633,7 +650,7 @@ public class frm_Penghuni extends javax.swing.JFrame {
                 tfAlamatPekerjaan.setText(o[10].toString());
                 tfNomorTelpPekerjaan.setText(o[11].toString());
                 tfPasFoto.setText(o[12].toString());
-                tfFotoKTP.setText(o[13].toString());
+                tfNomorKTP.setText(o[13].toString());
             }
         }catch(SQLException e){
             System.out.println(e.getMessage());
@@ -682,10 +699,6 @@ public class frm_Penghuni extends javax.swing.JFrame {
         cekstatus();
     }//GEN-LAST:event_tfEmailCaretUpdate
 
-    private void tfNomorKTPCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfNomorKTPCaretUpdate
-        cekstatus();
-    }//GEN-LAST:event_tfNomorKTPCaretUpdate
-
     private void tfNomorTelpCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfNomorTelpCaretUpdate
         cekstatus();
     }//GEN-LAST:event_tfNomorTelpCaretUpdate
@@ -702,13 +715,9 @@ public class frm_Penghuni extends javax.swing.JFrame {
         cekstatus();
     }//GEN-LAST:event_tfNomorTelpPekerjaanCaretUpdate
 
-    private void tfPasFotoCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfPasFotoCaretUpdate
+    private void tfNomorKTPCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfNomorKTPCaretUpdate
         cekstatus();
-    }//GEN-LAST:event_tfPasFotoCaretUpdate
-
-    private void tfFotoKTPCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfFotoKTPCaretUpdate
-        cekstatus();
-    }//GEN-LAST:event_tfFotoKTPCaretUpdate
+    }//GEN-LAST:event_tfNomorKTPCaretUpdate
 
     /**
      * @param args the command line arguments
@@ -747,6 +756,8 @@ public class frm_Penghuni extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCariFoto;
+    private javax.swing.JButton btnCariKTP;
     private javax.swing.JButton btnCariPenghuni;
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnHapus;
@@ -755,8 +766,6 @@ public class frm_Penghuni extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbCariPenghuni;
     private javax.swing.JComboBox<String> cbGender;
     private com.toedter.calendar.JDateChooser dcTanggalLahirPenghuni;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -764,22 +773,29 @@ public class frm_Penghuni extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane2;
     private org.jdesktop.layout.LayoutStyle layoutStyle1;
     private usu.widget.Panel panel1;
+    private javax.swing.JPanel pnlFoto;
     private javax.swing.JTable tblPenghuni;
     private javax.swing.JTextField tfAlamatPekerjaan;
     private javax.swing.JTextField tfAlamatPenghuni;
     private javax.swing.JTextField tfCariPenghuni;
     private javax.swing.JTextField tfEmail;
-    private javax.swing.JTextField tfFotoKTP;
     private javax.swing.JTextField tfNamaPenghuni;
     private javax.swing.JTextField tfNomorKTP;
     private javax.swing.JTextField tfNomorTelp;
     private javax.swing.JTextField tfNomorTelpPekerjaan;
     private javax.swing.JTextField tfPasFoto;
+    private javax.swing.JTextField tfPasKTP;
     private javax.swing.JTextField tfPekerjaan;
     private javax.swing.JTextField tfTempatLahirPenghuni;
     // End of variables declaration//GEN-END:variables
+
+    private static class FrameKaryawan {
+
+        public FrameKaryawan() {
+        }
+    }
 }
