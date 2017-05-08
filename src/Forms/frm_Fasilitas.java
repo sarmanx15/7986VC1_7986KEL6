@@ -5,17 +5,140 @@
  */
 package Forms;
 
+import Class.koneksi;
+import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author acer
  */
 public class frm_Fasilitas extends javax.swing.JFrame {
-
+private DefaultTableModel model;
+private Connection con = koneksi.getConnection();
+private Statement stt;
+private ResultSet rss;
     /**
      * Creates new form frm_Fasilitas
      */
+public void InitTable(){
+    model = new DefaultTableModel();
+        model.addColumn("NO.");
+        model.addColumn("NAMA FASILITAS");
+        model.addColumn("HARGA FASILITAS");
+        model.addColumn("STATUS FASILITAS");
+        tblFasilitas.setModel(model);
+}
+
+private void TampilDataFasilitas(){
+        try{
+            String sql = "Select *from fasilitas order by id_fasilitas;";
+            stt = con.createStatement();
+            rss = stt.executeQuery(sql);
+            while(rss.next()){
+                Object[] o = new Object[3];
+                o[0] = rss.getString("id_fasilitas");
+                o[1] = rss.getString("nama_fasilitas");
+                o[2] = rss.getString("harga_fasilitas");
+
+                model.addRow(o);
+            }
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+private void TambahDataFasilitas(String nama_fasilitas,String harga_fasilitas) {
+        try{
+            String sql = "INSERT INTO fasilitas VALUES(NULL,'"+nama_fasilitas+"','"+harga_fasilitas+"');";
+            stt = con.createStatement();
+            stt.executeUpdate(sql);
+            model.addRow(new Object[]{nama_fasilitas,harga_fasilitas});
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        InitTable();
+        TampilDataFasilitas();
+    }
+
+public boolean UbahDataFasilitas(String id_fasilitas,String nama_fasilitas,String harga_fasilitas ){
+        try{
+            String sql = "UPDATE fasilitas set nama_fasilitas = '"+nama_fasilitas+"', harga_fasilitas = '"+harga_fasilitas+"'WHERE id_fasilitas = "+id_fasilitas+";";
+            stt = con.createStatement();
+            stt.executeUpdate(sql);
+            return true;
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+private void bersihkanfield(){
+        tfNomorFasilitas.setText("");
+        tfNamaFasilitas.setText("");
+        tfHargaFasilitas.setText("");
+        tfStatusFasilitas.setText("");
+        tfCariFasilitas.setText("");
+    }
+
+private void KunciField(Boolean x){
+        tfNomorFasilitas.setEnabled(x);
+        tfNamaFasilitas.setEnabled(x);
+        tfHargaFasilitas.setEnabled(x);
+        tfStatusFasilitas.setEnabled(x);
+//        btnSimpanFasilitas.setEnabled(x);
+    }
+
+public boolean HapusData(String id_fasilitas){
+        try{
+            String sql = "DELETE FROM fasilitas WHERE id_fasilitas = "+id_fasilitas+";";
+            stt = con.createStatement();
+            stt.executeUpdate(sql);
+            return true;
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+private void PencarianData(String by, String cari){
+        try{
+            String sql = "Select *from fasilitas where "+by+" Like '%"+cari+"%';";
+            stt = con.createStatement();
+            rss = stt.executeQuery(sql);
+            while(rss.next()){
+                Object[] data = new Object[3];
+                data[0] = rss.getString("id_fasilitas");
+                data[1] = rss.getString("nama_fasilitas");
+                data[2] = rss.getString("harga_fasilitas");
+               
+                model.addRow(data);
+            }
+        }
+            catch(Exception e){
+                    System.out.println(e.getMessage());
+                    }
+        
+    }
+public void cekstatus(){
+    
+         if(tfNamaFasilitas.getText().length()==0 ||
+            tfHargaFasilitas.getText().length()==0 ||
+            tfStatusFasilitas.getText().length()==0){
+            btnSimpanFasilitas.setEnabled(false);
+        }
+        else{
+            btnSimpanFasilitas.setEnabled(true);
+        }
+     } 
     public frm_Fasilitas() {
         initComponents();
     }
@@ -52,6 +175,11 @@ public class frm_Fasilitas extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelGlass1.setBackgroundImage(new javax.swing.ImageIcon(getClass().getResource("/IMG/bgFormFasilitas.png"))); // NOI18N
@@ -70,14 +198,29 @@ public class frm_Fasilitas extends javax.swing.JFrame {
 
         btnTambahFasilitas.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnTambahFasilitas.setText("TAMBAH");
+        btnTambahFasilitas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTambahFasilitasActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnTambahFasilitas);
 
         btnEditFasilitas.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnEditFasilitas.setText("EDIT");
+        btnEditFasilitas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditFasilitasActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnEditFasilitas);
 
         btnHapusFasilitas.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnHapusFasilitas.setText("HAPUS");
+        btnHapusFasilitas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHapusFasilitasActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnHapusFasilitas);
 
         panelGlass1.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(31, 294, 362, 50));
@@ -93,6 +236,11 @@ public class frm_Fasilitas extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblFasilitas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblFasilitasMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblFasilitas);
 
         panelGlass1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 180, 710, 380));
@@ -114,13 +262,25 @@ public class frm_Fasilitas extends javax.swing.JFrame {
 
         jPanel2.setLayout(new java.awt.GridLayout(4, 0, 0, 4));
 
-        tfNomorFasilitas.setText("jTextField1");
+        tfNomorFasilitas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfNomorFasilitasKeyTyped(evt);
+            }
+        });
         jPanel2.add(tfNomorFasilitas);
 
-        tfNamaFasilitas.setText("jTextField2");
+        tfNamaFasilitas.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                tfNamaFasilitasCaretUpdate(evt);
+            }
+        });
         jPanel2.add(tfNamaFasilitas);
 
-        tfHargaFasilitas.setText("jTextField3");
+        tfHargaFasilitas.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                tfHargaFasilitasCaretUpdate(evt);
+            }
+        });
         tfHargaFasilitas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfHargaFasilitasActionPerformed(evt);
@@ -128,7 +288,11 @@ public class frm_Fasilitas extends javax.swing.JFrame {
         });
         jPanel2.add(tfHargaFasilitas);
 
-        tfStatusFasilitas.setText("jTextField4");
+        tfStatusFasilitas.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                tfStatusFasilitasCaretUpdate(evt);
+            }
+        });
         jPanel2.add(tfStatusFasilitas);
 
         panelGlass1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 130, 190, 120));
@@ -139,13 +303,17 @@ public class frm_Fasilitas extends javax.swing.JFrame {
         jPanel3.add(cbFilterFasilitas);
 
         btnCariFasilitas.setText("CARI");
+        btnCariFasilitas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCariFasilitasActionPerformed(evt);
+            }
+        });
         jPanel3.add(btnCariFasilitas);
 
         panelGlass1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 140, 280, 30));
 
         jPanel4.setLayout(new java.awt.BorderLayout());
 
-        tfCariFasilitas.setText("jTextField5");
         tfCariFasilitas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfCariFasilitasActionPerformed(evt);
@@ -162,6 +330,13 @@ public class frm_Fasilitas extends javax.swing.JFrame {
 
     private void btnSimpanFasilitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanFasilitasActionPerformed
         // TODO add your handling code here:
+        String id = tfNomorFasilitas.getText();
+        String nama_fasilitas = tfNamaFasilitas.getText();
+        String harga_fasilitas = tfHargaFasilitas.getText();
+        
+        TambahDataFasilitas(nama_fasilitas,harga_fasilitas);
+        bersihkanfield();
+        KunciField(false);
     }//GEN-LAST:event_btnSimpanFasilitasActionPerformed
 
     private void tfHargaFasilitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfHargaFasilitasActionPerformed
@@ -184,6 +359,137 @@ public class frm_Fasilitas extends javax.swing.JFrame {
     private void tfCariFasilitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfCariFasilitasActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfCariFasilitasActionPerformed
+
+    private void btnHapusFasilitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusFasilitasActionPerformed
+        // TODO add your handling code here:
+        int baris = tblFasilitas.getSelectedRow();
+        String id_kamar = tblFasilitas.getValueAt(baris, 0).toString();
+        
+        if(HapusData(id_kamar)){
+            JOptionPane.showMessageDialog(null, "Berhasil Hapus Data");
+        }
+        else{
+            JOptionPane.showConfirmDialog(null, "Gagal Hapus Data");
+            
+        }
+        InitTable();
+        TampilDataFasilitas();
+        bersihkanfield();
+        KunciField(false);
+    }//GEN-LAST:event_btnHapusFasilitasActionPerformed
+
+    private void tblFasilitasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblFasilitasMouseClicked
+        // TODO add your handling code here:
+        int baris=tblFasilitas.getSelectedRow();
+        String id_fasilitas = tblFasilitas.getValueAt(baris, 0).toString();
+        
+        try{
+            String sql = "Select *from fasilitas where id_fasilitas = "+id_fasilitas+";";
+            stt = con.createStatement();
+            rss = stt.executeQuery(sql);
+            while(rss.next()){
+                Object[] o = new Object[3];
+                o[0] = rss.getString("id_fasilitas");
+                o[1] = rss.getString("nama_fasilitas");
+                o[2] = rss.getString("harga_fasilitas");
+                
+                tfNomorFasilitas.setText(o[0].toString());
+                tfNamaFasilitas.setText(o[1].toString());
+                tfHargaFasilitas.setText(o[2].toString());
+                
+            }
+             }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+    }//GEN-LAST:event_tblFasilitasMouseClicked
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        // TODO add your handling code here:
+        InitTable();
+        TampilDataFasilitas();
+        bersihkanfield();
+        btnSimpanFasilitas.setEnabled(false);
+        KunciField(false);
+    }//GEN-LAST:event_formComponentShown
+
+    private void tfNomorFasilitasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNomorFasilitasKeyTyped
+        // TODO add your handling code here:
+        char c=evt.getKeyChar();
+        if(!(Character.isDigit(c)||c==KeyEvent.VK_BACK_SPACE||c==KeyEvent.VK_DELETE)){
+            evt.consume();
+        }
+    }//GEN-LAST:event_tfNomorFasilitasKeyTyped
+
+    private void btnCariFasilitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariFasilitasActionPerformed
+        // TODO add your handling code here:
+        
+        if(cbFilterFasilitas.getSelectedItem().equals("Berdasarkan")){//jika pada combobox yang terseleksi masih"cari bardasarkan, maka jalankan perintah berikut
+             JOptionPane.showMessageDialog(null, "Pilih Filter Pencarian","Konfirmasi",JOptionPane.INFORMATION_MESSAGE);
+             //sintak diatas untuk menampilkan pesan dialog beruppa kofirmasi
+        }
+        else{
+            
+            InitTable();
+            if(tfCariFasilitas.getText().length()==0){
+                TampilDataFasilitas();
+            }
+            else{
+                String a = null;
+                if(cbFilterFasilitas.getSelectedItem()=="Nama"){
+                 a="nama_fasilitas";
+            }else if (cbFilterFasilitas.getSelectedItem()=="Harga"){
+                 a="harga_fasilitas";
+            }
+            else if (cbFilterFasilitas.getSelectedItem()=="Status"){
+                 a="Status";
+            }
+                
+                PencarianData(a, tfCariFasilitas.getText());
+
+            }
+        }
+    }//GEN-LAST:event_btnCariFasilitasActionPerformed
+
+    private void btnEditFasilitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditFasilitasActionPerformed
+        // TODO add your handling code here:
+        int baris = tblFasilitas.getSelectedRow();
+        String id = tblFasilitas.getValueAt(baris, 0).toString();
+        String nama_fasilitas = tfNamaFasilitas.getText();
+        String harga_fasilitas = tfHargaFasilitas.getText();
+                
+        if(UbahDataFasilitas(id, nama_fasilitas, harga_fasilitas)){
+            JOptionPane.showMessageDialog(null, "Berhasil Ubah Data");
+            InitTable();
+            TampilDataFasilitas();
+            bersihkanfield();
+            KunciField(false);
+            btnSimpanFasilitas.setEnabled(false);
+        }
+        else{
+            JOptionPane.showConfirmDialog(null, "Gagal Ubah Data");
+            
+        }
+    }//GEN-LAST:event_btnEditFasilitasActionPerformed
+
+    private void btnTambahFasilitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahFasilitasActionPerformed
+        // TODO add your handling code here:
+        KunciField(true);
+    }//GEN-LAST:event_btnTambahFasilitasActionPerformed
+
+    private void tfNamaFasilitasCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfNamaFasilitasCaretUpdate
+        // TODO add your handling code here:
+        cekstatus();
+    }//GEN-LAST:event_tfNamaFasilitasCaretUpdate
+
+    private void tfHargaFasilitasCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfHargaFasilitasCaretUpdate
+        // TODO add your handling code here:
+        cekstatus();
+    }//GEN-LAST:event_tfHargaFasilitasCaretUpdate
+
+    private void tfStatusFasilitasCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfStatusFasilitasCaretUpdate
+        // TODO add your handling code here:
+        cekstatus();
+    }//GEN-LAST:event_tfStatusFasilitasCaretUpdate
 
     /**
      * @param args the command line arguments
