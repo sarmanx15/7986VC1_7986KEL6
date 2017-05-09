@@ -51,9 +51,21 @@ public class frm_transaksi extends javax.swing.JFrame {
         TampilDataTransaksi();
     }
     
-//    public boolean UbahDataTransaksi(){
-//        
-//    }
+    public boolean UbahDataTransaksi(String id_transaksi,String nama_kamar,String nama, String biaya){
+        try{
+            String sql = "UPDATE transaksi "
+                    + " join penyewa on transaksi.id_penyewa=penyewa.id_penyewa"
+                    + " join kamar on transaksi.id_kamar=kamar.id_kamar"
+                    + " set nama_kamar='"+nama_kamar+" ,biaya="+biaya+" , nama='"+nama+"' where id_transaksi="+id_transaksi+";";
+            stt = con.createStatement();
+            stt.executeUpdate(sql);
+            return true;
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }        
             
     private void TampilDataTransaksi(){
         try{
@@ -412,20 +424,13 @@ public class frm_transaksi extends javax.swing.JFrame {
 
     private void btnEditTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditTransaksiActionPerformed
         // TODO add your handling code here:
-        int simpan=JOptionPane.showConfirmDialog(this, "Apakah Anda Ingin Menyimpan Data","Confirm Simpan",
-        JOptionPane.YES_OPTION);
-        if(tfNoPembayaran.getText().length()!=0 && tfKodePenghuni.getText().length()!=0 && tfNomorKtpPenghuni.getText().length()!=0 
-                && tfHargaKamar.getText().length()!=0 && tfPeriode.getText().length()!=0 && tfTotal.getText().length()!=0){
-        String nama_penghuni = tfNamaPenghuni.getText();
-        String alamat = tfAlamatAsalPenghuni.getText();
+        int baris = tblTransaksi.getSelectedRow();
+        String id_transaksi = tblTransaksi.getValueAt(baris, 0).toString();
         String nama_kamar = tfNamaKamar.getText();
-        DateFormat dateFormat = new SimpleDateFormat( "yyyy-MM-dd");
-        String tgl_masuk = dateFormat.format(dcTglMasuk.getDate());
-        String tgl_keluar = dateFormat.format(dcTglKeluar.getDate());
-        }else{
-            JOptionPane.showMessageDialog(this, "Isi Data yang Lengkap Jangan Ada yang Kosong");
-        }
-        if(UbahDataTransaksi()){
+        String harga_sewa = tfHargaKamar.getText();
+        String nama = tfNamaPenghuni.getText();
+        
+        if(UbahDataTransaksi(id_transaksi, nama_kamar, nama, nama)){
             JOptionPane.showMessageDialog(null, "Berhasil Ubah Data");
             InitTable();
             TampilDataTransaksi();
@@ -564,13 +569,15 @@ public class frm_transaksi extends javax.swing.JFrame {
         String id_transaksi = tblTransaksi.getValueAt(baris, 0).toString();
         
         try{
-            String sql = "Select *from transaksi where id_transaksi = "+id_transaksi+";";
+            String sql = "Select transaksi.id_transaksi,penyewa.nama,kamar.nama_kamar,transaksi.biaya from transaksi"
+                    + " join penyewa on transaksi.id_penyewa=penyewa.id_penyewa"
+                    + " join kamar on transaksi.id_kamar=kamar.id_kamar where id_transaksi="+id_transaksi+";";
             stt = con.createStatement();
             rss = stt.executeQuery(sql);
             while(rss.next()){
                 Object[] o = new Object[3];
                 o[0] = rss.getString("id_transaksi");
-                o[1] = rss.getString("nama_penyewa");
+                o[1] = rss.getString("nama");
                 o[2] = rss.getString("nama_kamar");
                 o[3] = rss.getString("biaya");
                 tfNoPembayaran.setText(o[0].toString());
