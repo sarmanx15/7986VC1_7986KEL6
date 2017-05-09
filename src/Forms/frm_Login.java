@@ -5,17 +5,79 @@
  */
 package Forms;
 
+import Class.koneksi;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author acer
  */
 public class frm_Login extends javax.swing.JFrame {
+    private Object con;
+    private ResultSet rss;
+    public static Object[] id_admin = new Object[3];
 
     /**
      * Creates new form LoginPanel
      */
     public frm_Login() {
         initComponents();
+    }
+    
+    public static Object[] getform(){
+        return id_admin;
+    }
+        private void ProsesLogin(String username, String password){
+         
+        try{
+            
+            Statement statement = (Statement)koneksi.getConnection().createStatement();
+            ResultSet result=statement.executeQuery
+            ("select * from admin where username='"+username+"'" );
+            
+            if(result.next()){
+                if(password.equals(result.getString("password"))){
+                    id_admin[0] = result.getString("id_admin");
+                    id_admin[1] = result.getString("nama_admin");
+                    id_admin[2] = result.getString("level");
+                    String nama = id_admin[1].toString();
+                    String level =id_admin[2].toString();
+//                    if(level=="superadmin"){
+//                        JOptionPane.showMessageDialog(rootPane, "Selamat Datang Super Admin ^_^ ");
+//                        frm_Home awal = new frm_Home();
+//                        awal.setVisible(true);
+//                        dispose();
+//                    }else if(level=="admin"){
+//                        JOptionPane.showMessageDialog(rootPane, "Selamat Datang Super Admin ^.^ ");
+//                        frm_Home awal = new frm_Home();
+//                        awal.setVisible(true);
+//                        dispose();  
+//                    }
+                    JOptionPane.showMessageDialog(rootPane, "Selamat datang "+nama+", Anda Login Sebagai "+level);
+                    frm_Home awal = new frm_Home();
+                        awal.setVisible(true);
+                        dispose();  
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Password Salah");
+                    tfPassword.setText("");
+                    tfPassword.requestFocus();
+                }
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "User tidak ditemukan");
+                tfUsername.setText("");
+                tfPassword.setText("");
+                tfUsername.requestFocus();
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(frm_Login.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(rootPane, "Gagal Login!");
+        }
     }
 
     /**
@@ -96,9 +158,10 @@ public class frm_Login extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
-        dispose();
-        frm_Home home = new frm_Home();
-        home.setVisible(true);
+//        dispose();
+//        frm_Home home = new frm_Home();
+//        home.setVisible(true);
+    ProsesLogin(tfUsername.getText(), tfPassword.getText());
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
