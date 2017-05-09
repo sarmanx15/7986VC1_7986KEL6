@@ -42,10 +42,12 @@ private void TampilDataKamar(){
             stt = con.createStatement();
             rss = stt.executeQuery(sql);
             while(rss.next()){
-                Object[] o = new Object[3];
+                Object[] o = new Object[4];
                 o[0] = rss.getString("id_kamar");
                 o[1] = rss.getString("nama_kamar");
                 o[2] = rss.getString("harga_sewa");
+                o[3] = rss.getString("status");
+                
 
                 model.addRow(o);
             }
@@ -54,12 +56,12 @@ private void TampilDataKamar(){
         }
     }
 
-private void TambahDataKamar(String nama_kamar,String harga_sewa) {
+private void TambahDataKamar(String nama_kamar,String harga_sewa, int status) {
         try{
-            String sql = "INSERT INTO kamar VALUES(NULL,'"+nama_kamar+"','"+harga_sewa+"');";
+            String sql = "INSERT INTO kamar VALUES(NULL,'"+nama_kamar+"','"+harga_sewa+"','"+status+"');";
             stt = con.createStatement();
             stt.executeUpdate(sql);
-            model.addRow(new Object[]{nama_kamar, harga_sewa});
+            model.addRow(new Object[]{nama_kamar, harga_sewa,status});
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
@@ -83,7 +85,7 @@ private void bersihkanfield(){
         tfNomorKamar.setText("");
         tfNamaKamar.setText("");
         tfHargaKamar.setText("");
-        tfStatusKamar.setText("");
+        
         tfCariKamar.setText("");
     }
 
@@ -91,7 +93,7 @@ private void KunciField(Boolean x){
         tfNomorKamar.setEnabled(x);
         tfNamaKamar.setEnabled(x);
         tfHargaKamar.setEnabled(x);
-        tfStatusKamar.setEnabled(x);
+        
 //        btnSimpanKamar.setEnabled(x);
     }
 
@@ -113,10 +115,11 @@ private void PencarianData(String by, String cari){
             stt = con.createStatement();
             rss = stt.executeQuery(sql);
             while(rss.next()){
-                Object[] data = new Object[3];
+                Object[] data = new Object[4];
                 data[0] = rss.getString("id_kamar");
                 data[1] = rss.getString("nama_kamar");
                 data[2] = rss.getString("harga_sewa");
+                data[3] = rss.getString("status");
                
                 model.addRow(data);
             }
@@ -139,6 +142,8 @@ public void cekstatus(){
     
     public frm_Kamar() {
         initComponents();
+        tfStatusKamar.setEnabled(false);
+        tfStatusKamar.setText("Kosong");
     }
 
     /**
@@ -155,8 +160,7 @@ public void cekstatus(){
         jPanel1 = new javax.swing.JPanel();
         btnSimpanKamar = new javax.swing.JButton();
         btnTambahKamar = new javax.swing.JButton();
-        btnEditKamar = new javax.swing.JButton();
-        btnHapusKamar = new javax.swing.JButton();
+        btnReset = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblKamar = new javax.swing.JTable();
         btnKeluarKamar = new javax.swing.JButton();
@@ -170,6 +174,8 @@ public void cekstatus(){
         btnCariKamar = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         tfCariKamar = new javax.swing.JTextField();
+        btnHapusKamar = new javax.swing.JButton();
+        btnEditKamar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -203,23 +209,14 @@ public void cekstatus(){
         });
         jPanel1.add(btnTambahKamar);
 
-        btnEditKamar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnEditKamar.setText("EDIT");
-        btnEditKamar.addActionListener(new java.awt.event.ActionListener() {
+        btnReset.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnReset.setText("Bersihkan");
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditKamarActionPerformed(evt);
+                btnResetActionPerformed(evt);
             }
         });
-        jPanel1.add(btnEditKamar);
-
-        btnHapusKamar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnHapusKamar.setText("HAPUS");
-        btnHapusKamar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHapusKamarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnHapusKamar);
+        jPanel1.add(btnReset);
 
         panelGlass1.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, 360, 40));
 
@@ -241,7 +238,7 @@ public void cekstatus(){
         });
         jScrollPane1.setViewportView(tblKamar);
 
-        panelGlass1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 180, 690, 330));
+        panelGlass1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 180, 580, 330));
 
         btnKeluarKamar.setBackground(new java.awt.Color(255, 204, 0));
         btnKeluarKamar.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
@@ -322,6 +319,26 @@ public void cekstatus(){
 
         panelGlass1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 130, 230, 30));
 
+        btnHapusKamar.setBackground(new java.awt.Color(0, 217, 61));
+        btnHapusKamar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnHapusKamar.setText("HAPUS");
+        btnHapusKamar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHapusKamarActionPerformed(evt);
+            }
+        });
+        panelGlass1.add(btnHapusKamar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 230, 87, 40));
+
+        btnEditKamar.setBackground(new java.awt.Color(0, 217, 61));
+        btnEditKamar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnEditKamar.setText("EDIT");
+        btnEditKamar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditKamarActionPerformed(evt);
+            }
+        });
+        panelGlass1.add(btnEditKamar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 180, 87, 40));
+
         getContentPane().add(panelGlass1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1190, 650));
 
         pack();
@@ -372,10 +389,12 @@ public void cekstatus(){
                 o[0] = rss.getString("id_kamar");
                 o[1] = rss.getString("nama_kamar");
                 o[2] = rss.getString("harga_sewa");
+                o[3] = rss.getString("status");
                 
                 tfNomorKamar.setText(o[0].toString());
                 tfNamaKamar.setText(o[1].toString());
                 tfHargaKamar.setText(o[2].toString());
+                tfStatusKamar.setText(o[3].toString());
 //                KunciField(true);
 //                btnSimpanKamar.setEnabled(false);
             }
@@ -424,16 +443,17 @@ public void cekstatus(){
             else{
                 String b = null;
                 if(cbFilterKamar.getSelectedItem()=="Nama"){
-                 b="nama_kamar";
-            }else if (cbFilterKamar.getSelectedItem()=="Harga"){
-                 b="harga_sewa";
-            }
-            else if (cbFilterKamar.getSelectedItem()=="Status"){
-                 b="Status";
-            }
-                
+                    b="nama_kamar";
+                    
+                }else if (cbFilterKamar.getSelectedItem()=="Harga"){
+                    b="harga_sewa";
+                    
+                }
+                else if (cbFilterKamar.getSelectedItem()=="Status"){                
+                    b="status";
+                    
+                }
                 PencarianData(b, tfCariKamar.getText());
-
             }
         }
     }//GEN-LAST:event_btnCariKamarActionPerformed
@@ -444,8 +464,8 @@ public void cekstatus(){
         String nama_kamar = tfNamaKamar.getText();
         String harga_sewa = tfHargaKamar.getText();
 //        String status_kamar = tfStatusKamar.getText();
-        
-        TambahDataKamar(nama_kamar, harga_sewa);
+        int status = 0;
+        TambahDataKamar(nama_kamar, harga_sewa, status);
         bersihkanfield();
         KunciField(false);
     }//GEN-LAST:event_btnSimpanKamarActionPerformed
@@ -491,6 +511,11 @@ public void cekstatus(){
         cekstatus();
     }//GEN-LAST:event_tfStatusKamarCaretUpdate
 
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        // TODO add your handling code here:
+        bersihkanfield();
+    }//GEN-LAST:event_btnResetActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -531,6 +556,7 @@ public void cekstatus(){
     private javax.swing.JButton btnEditKamar;
     private javax.swing.JButton btnHapusKamar;
     private javax.swing.JButton btnKeluarKamar;
+    private javax.swing.JButton btnReset;
     private javax.swing.JButton btnSimpanKamar;
     private javax.swing.JButton btnTambahKamar;
     private javax.swing.JComboBox cbFilterKamar;
