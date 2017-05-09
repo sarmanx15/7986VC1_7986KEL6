@@ -5,14 +5,95 @@
  */
 package Forms;
 
+import Class.koneksi;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author acer
  */
 public class frm_transaksi extends javax.swing.JFrame {
-
+    private DefaultTableModel model;
+    private Connection con = koneksi.getConnection();
+    private Statement stt;
+    private ResultSet rss;
+    
+    public void InitTable(){
+        
+    }
+    
+    private void TambahDataTransaksi(){
+           
+    }
+    
+    public boolean UbahDataTransaksi(){
+        
+    }
+            
+    private void TampilDataTransaksi(){
+        try{
+            String sql = "Select *from transaksi;";
+            stt = con.createStatement();
+            rss = stt.executeQuery(sql);
+            while(rss.next()){
+            }
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    private void bersihkanfield(){
+        tfNoPembayaran.setText("");
+        tfKodePenghuni.setText("");
+        tfNamaPenghuni.setText("");
+        tfNomorKtpPenghuni.setText("");
+        tfAlamatAsalPenghuni.setText("");
+        tfPilihKamarPenghuni.setText("");
+        tfNamaKamar.setText("");
+        tfHargaKamar.setText("");
+        tfPeriode.setText("");
+        tfTotal.setText("");
+        tfTerbilang.setText("");
+        dcTglMasuk.setDate(null);
+        dcTglKeluar.setDate(null);
+    }
+    
+    private void KunciField(Boolean x){
+       tfNoPembayaran.setEnabled(x);
+        tfKodePenghuni.setEnabled(x);
+        tfNamaPenghuni.setEnabled(x);
+        tfNomorKtpPenghuni.setEnabled(x);
+        tfAlamatAsalPenghuni.setEnabled(x);
+        tfPilihKamarPenghuni.setEnabled(x);
+        tfNamaKamar.setEnabled(x);
+        tfHargaKamar.setEnabled(x);
+        tfPeriode.setEnabled(x);
+        tfTotal.setEnabled(x);
+        tfTerbilang.setEnabled(x);
+        dcTglMasuk.setEnabled(x);
+        dcTglKeluar.setEnabled(x);
+    }
+    
+    public boolean HapusData(String id){
+        try{
+            String sql = "DELETE FROM transaksi WHERE id_transaksi = "+id+";";
+            stt = con.createStatement();
+            stt.executeUpdate(sql);
+            return true;
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+    
     /**
      * Creates new form frm_transaksi
      */
@@ -69,6 +150,16 @@ public class frm_transaksi extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelGlass1.setBackgroundImage(new javax.swing.ImageIcon(getClass().getResource("/IMG/bgFormPembayaran.png"))); // NOI18N
@@ -78,6 +169,11 @@ public class frm_transaksi extends javax.swing.JFrame {
 
         btnSimpanTransaksi.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnSimpanTransaksi.setText("SIMPAN");
+        btnSimpanTransaksi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSimpanTransaksiActionPerformed(evt);
+            }
+        });
         jPanel4.add(btnSimpanTransaksi);
 
         btnTambahTransaksi.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -170,9 +266,19 @@ public class frm_transaksi extends javax.swing.JFrame {
         jPanel2.setLayout(new java.awt.GridLayout(1, 0, 4, 0));
 
         tfPilihKamarPenghuni.setText("jTextField6");
+        tfPilihKamarPenghuni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfPilihKamarPenghuniActionPerformed(evt);
+            }
+        });
         jPanel2.add(tfPilihKamarPenghuni);
 
         btnCariKamarPenghuni.setText("CARI");
+        btnCariKamarPenghuni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCariKamarPenghuniActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnCariKamarPenghuni);
 
         jPanel5.add(jPanel2);
@@ -236,10 +342,36 @@ public class frm_transaksi extends javax.swing.JFrame {
 
     private void btnEditTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditTransaksiActionPerformed
         // TODO add your handling code here:
+        int simpan=JOptionPane.showConfirmDialog(this, "Apakah Anda Ingin Menyimpan Data","Confirm Simpan",
+        JOptionPane.YES_OPTION);
+        if(tfNoPembayaran.getText().length()!=0 && tfKodePenghuni.getText().length()!=0 && tfNomorKtpPenghuni.getText().length()!=0 
+                && tfHargaKamar.getText().length()!=0 && tfPeriode.getText().length()!=0 && tfTotal.getText().length()!=0){
+        String nama_penghuni = tfNamaPenghuni.getText();
+        String alamat = tfAlamatAsalPenghuni.getText();
+        String nama_kamar = tfNamaKamar.getText();
+        DateFormat dateFormat = new SimpleDateFormat( "yyyy-MM-dd");
+        String tgl_masuk = dateFormat.format(dcTglMasuk.getDate());
+        String tgl_keluar = dateFormat.format(dcTglKeluar.getDate());
+        }else{
+            JOptionPane.showMessageDialog(this, "Isi Data yang Lengkap Jangan Ada yang Kosong");
+        }
+        if(UbahDataTransaksi()){
+            JOptionPane.showMessageDialog(null, "Berhasil Ubah Data");
+            InitTable();
+            TampilDataTransaksi();
+            bersihkanfield();
+            KunciField(false);
+            btnSimpanTransaksi.setEnabled(false);
+        }
+        else{
+            JOptionPane.showConfirmDialog(null, "Gagal Ubah Data");
+            
+        }
     }//GEN-LAST:event_btnEditTransaksiActionPerformed
 
     private void btnTambahTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahTransaksiActionPerformed
         // TODO add your handling code here:
+        KunciField(true);
     }//GEN-LAST:event_btnTambahTransaksiActionPerformed
 
     private void btnTutupPembayaranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTutupPembayaranActionPerformed
@@ -258,11 +390,85 @@ public class frm_transaksi extends javax.swing.JFrame {
 
     private void btnCariKodePenghuniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariKodePenghuniActionPerformed
         // TODO add your handling code here:
+//        String id_penyewa=null;
+        try
+            {
+                String sql="select * from penyewa where id_penyewa="+tfKodePenghuni.getText()+";";
+                stt = con.createStatement();
+                rss = stt.executeQuery(sql);
+
+                while(rss.next())
+                {
+                    tfNamaPenghuni.setText(rss.getString("nama"));
+                    tfAlamatAsalPenghuni.setText(rss.getString("alamat"));
+                    tfNomorKtpPenghuni.setText(rss.getString("noktp"));
+                    
+                }
+            }catch(Exception e)
+            {
+                JOptionPane.showMessageDialog(null,"GAGAL");
+            }  
     }//GEN-LAST:event_btnCariKodePenghuniActionPerformed
 
     private void tfCariPembayaranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfCariPembayaranActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfCariPembayaranActionPerformed
+
+    private void btnSimpanTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanTransaksiActionPerformed
+        // TODO add your handling code here:
+        int simpan=JOptionPane.showConfirmDialog(this, "Apakah Anda Ingin Menyimpan Data","Confirm Simpan",
+        JOptionPane.YES_OPTION);
+        if(tfNoPembayaran.getText().length()!=0 && tfKodePenghuni.getText().length()!=0 && tfNomorKtpPenghuni.getText().length()!=0 
+                && tfHargaKamar.getText().length()!=0 && tfPeriode.getText().length()!=0 && tfTotal.getText().length()!=0){
+        String nama_penghuni = tfNamaPenghuni.getText();
+        String alamat = tfAlamatAsalPenghuni.getText();
+        String nama_kamar = tfNamaKamar.getText();
+        DateFormat dateFormat = new SimpleDateFormat( "yyyy-MM-dd");
+        String tgl_masuk = dateFormat.format(dcTglMasuk.getDate());
+        String tgl_keluar = dateFormat.format(dcTglKeluar.getDate());
+        }else{
+            JOptionPane.showMessageDialog(this, "Isi Data yang Lengkap Jangan Ada yang Kosong");
+        }
+        TambahDataTransaksi();
+        bersihkanfield();
+        KunciField(false);
+    }//GEN-LAST:event_btnSimpanTransaksiActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_formWindowOpened
+
+    private void tfPilihKamarPenghuniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfPilihKamarPenghuniActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfPilihKamarPenghuniActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        // TODO add your handling code here:
+        InitTable();
+        TampilDataTransaksi();
+        bersihkanfield();
+        KunciField(false);
+    }//GEN-LAST:event_formComponentShown
+
+    private void btnCariKamarPenghuniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariKamarPenghuniActionPerformed
+        // TODO add your handling code here:
+        try
+            {
+                String sql="select * from kamar where id_kamar="+tfPilihKamarPenghuni.getText()+";";
+                stt = con.createStatement();
+                rss = stt.executeQuery(sql);
+
+                while(rss.next())
+                {
+                    tfNamaKamar.setText(rss.getString("nama_kamar"));
+                    tfHargaKamar.setText(rss.getString("harga_sewa")); 
+                }
+            }catch(Exception e)
+            {
+                JOptionPane.showMessageDialog(null,"GAGAL");
+            } 
+    }//GEN-LAST:event_btnCariKamarPenghuniActionPerformed
 
     /**
      * @param args the command line arguments
