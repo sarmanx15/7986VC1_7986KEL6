@@ -274,6 +274,11 @@ public class frm_transaksi extends javax.swing.JFrame {
         jPanel2.add(tfPilihKamarPenghuni);
 
         btnCariKamarPenghuni.setText("CARI");
+        btnCariKamarPenghuni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCariKamarPenghuniActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnCariKamarPenghuni);
 
         jPanel5.add(jPanel2);
@@ -385,6 +390,24 @@ public class frm_transaksi extends javax.swing.JFrame {
 
     private void btnCariKodePenghuniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariKodePenghuniActionPerformed
         // TODO add your handling code here:
+//        String id_penyewa=null;
+        try
+            {
+                String sql="select * from penyewa where id_penyewa="+tfKodePenghuni.getText()+";";
+                stt = con.createStatement();
+                rss = stt.executeQuery(sql);
+
+                while(rss.next())
+                {
+                    tfNamaPenghuni.setText(rss.getString("nama"));
+                    tfAlamatAsalPenghuni.setText(rss.getString("alamat"));
+                    tfNomorKtpPenghuni.setText(rss.getString("noktp"));
+                    
+                }
+            }catch(Exception e)
+            {
+                JOptionPane.showMessageDialog(null,"GAGAL");
+            }  
     }//GEN-LAST:event_btnCariKodePenghuniActionPerformed
 
     private void tfCariPembayaranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfCariPembayaranActionPerformed
@@ -427,6 +450,25 @@ public class frm_transaksi extends javax.swing.JFrame {
         bersihkanfield();
         KunciField(false);
     }//GEN-LAST:event_formComponentShown
+
+    private void btnCariKamarPenghuniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariKamarPenghuniActionPerformed
+        // TODO add your handling code here:
+        try
+            {
+                String sql="select * from kamar where id_kamar="+tfPilihKamarPenghuni.getText()+";";
+                stt = con.createStatement();
+                rss = stt.executeQuery(sql);
+
+                while(rss.next())
+                {
+                    tfNamaKamar.setText(rss.getString("nama_kamar"));
+                    tfHargaKamar.setText(rss.getString("harga_sewa")); 
+                }
+            }catch(Exception e)
+            {
+                JOptionPane.showMessageDialog(null,"GAGAL");
+            } 
+    }//GEN-LAST:event_btnCariKamarPenghuniActionPerformed
 
     /**
      * @param args the command line arguments
