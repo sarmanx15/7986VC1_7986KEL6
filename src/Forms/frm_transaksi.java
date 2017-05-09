@@ -26,23 +26,49 @@ public class frm_transaksi extends javax.swing.JFrame {
     private ResultSet rss;
     
     public void InitTable(){
+        model = new DefaultTableModel();
+        model.addColumn("NO.PEMBAYARAN");
+        model.addColumn("NAMA PENYEWA");
+        model.addColumn("NAMA KAMAR");
+        model.addColumn("TOTAL PEMBAYARAN");
         
+        tblTransaksi.setModel(model);
     }
     
-    private void TambahDataTransaksi(){
-           
+    private void TambahDataTransaksi(String id_penyewa,String nama,String alamat,
+            String noktp,String id_kamar,String nama_kamar,String harga_sewa,String bulan,String biaya,String tgl_masuk,String tgl_keluar){
+           try{
+            String sql = "INSERT INTO transaksi VALUES(NULL,"
+                    +id_penyewa+",'"+nama+"','"+alamat+"','"+noktp+"','"+nama_kamar+"','"+harga_sewa+"',"
+                    +bulan+","+biaya+",'"+tgl_masuk+"','"+tgl_keluar+"');";
+            stt = con.createStatement();
+            stt.executeUpdate(sql);
+            model.addRow(new Object[]{alamat,biaya,bulan,id_kamar,id_penyewa,nama,nama_kamar,noktp,tgl_masuk,tgl_keluar,nama_kamar, harga_sewa});
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        InitTable();
+        TampilDataTransaksi();
     }
     
-    public boolean UbahDataTransaksi(){
-        
-    }
+//    public boolean UbahDataTransaksi(){
+//        
+//    }
             
     private void TampilDataTransaksi(){
         try{
-            String sql = "Select *from transaksi;";
+            String sql = "Select transaksi.id_transaksi,penyewa.nama,kamar.nama_kamar,transaksi.biaya from transaksi"
+                    + " join penyewa on transaksi.id_penyewa=penyewa.id_penyewa"
+                    + " join kamar on transaksi.id_kamar=kamar.id_kamar;";
             stt = con.createStatement();
             rss = stt.executeQuery(sql);
             while(rss.next()){
+                Object[] o = new Object[4];
+                o[0] = rss.getString("id_transaksi");
+                o[1] = rss.getString("nama");
+                o[2] = rss.getString("nama_kamar");
+                o[3] = rss.getString("biaya");        
+                model.addRow(o);
             }
         }catch(SQLException e){
             System.out.println(e.getMessage());
@@ -93,7 +119,41 @@ public class frm_transaksi extends javax.swing.JFrame {
             return false;
         }
     }
-    
+//    private void total_transaksi(){
+//        String sql="Select sum(biaya) from transaksi where id_transaksi="+tfNoPembayaran+";";
+//        try{
+//            stt = con.createStatement();
+//            rss = stt.executeQuery(sql);
+//            
+//            while(rss.next()){
+//                lbtotal.setText(rss.getString(1));
+//            }
+//        }catch(Exception e){
+//            JOptionPane.showMessageDialog(null, e.getMessage());
+//            System.out.println(""+e.getMessage());
+//        }
+//    }
+    private void PencarianData(String by, String cari){
+        try{
+            String sql = "Select transaksi.id_transaksi,penyewa.nama,kamar.nama_kamar,transaksi.biaya from transaksi"
+                    + " join penyewa on transaksi.id_penyewa=penyewa.id_penyewa"
+                    + " join kamar on transaksi.id_kamar=kamar.id_kamar where "+by+" Like '%"+cari+"%';";
+            
+            stt = con.createStatement();
+            rss = stt.executeQuery(sql);
+            while(rss.next()){
+                Object[] data = new Object[4];
+                data[0] = rss.getString("id_transaksi");
+                data[1] = rss.getString("nama_penyewa");
+                data[2] = rss.getString("nama_kamar");
+                data[3] = rss.getString("biaya");
+                model.addRow(data);
+            }
+        }
+            catch(Exception e){
+                    System.out.println(e.getMessage());
+                    }
+}
     /**
      * Creates new form frm_transaksi
      */
@@ -211,6 +271,11 @@ public class frm_transaksi extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblTransaksi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblTransaksiMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblTransaksi);
 
         panelGlass1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 210, 590, 390));
@@ -292,6 +357,11 @@ public class frm_transaksi extends javax.swing.JFrame {
         jPanel3.setLayout(new java.awt.GridLayout(1, 0, 4, 0));
 
         tfPeriode.setText("jTextField9");
+        tfPeriode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfPeriodeActionPerformed(evt);
+            }
+        });
         jPanel3.add(tfPeriode);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -418,18 +488,18 @@ public class frm_transaksi extends javax.swing.JFrame {
         // TODO add your handling code here:
         int simpan=JOptionPane.showConfirmDialog(this, "Apakah Anda Ingin Menyimpan Data","Confirm Simpan",
         JOptionPane.YES_OPTION);
-        if(tfNoPembayaran.getText().length()!=0 && tfKodePenghuni.getText().length()!=0 && tfNomorKtpPenghuni.getText().length()!=0 
-                && tfHargaKamar.getText().length()!=0 && tfPeriode.getText().length()!=0 && tfTotal.getText().length()!=0){
+//        if(tfKodePenghuni.getText().length()!=0 && tfNomorKtpPenghuni.getText().length()!=0 
+//                && tfHargaKamar.getText().length()!=0 && tfPeriode.getText().length()!=0 && tfTotal.getText().length()!=0){
         String nama_penghuni = tfNamaPenghuni.getText();
         String alamat = tfAlamatAsalPenghuni.getText();
         String nama_kamar = tfNamaKamar.getText();
         DateFormat dateFormat = new SimpleDateFormat( "yyyy-MM-dd");
         String tgl_masuk = dateFormat.format(dcTglMasuk.getDate());
         String tgl_keluar = dateFormat.format(dcTglKeluar.getDate());
-        }else{
-            JOptionPane.showMessageDialog(this, "Isi Data yang Lengkap Jangan Ada yang Kosong");
-        }
-        TambahDataTransaksi();
+//        }else{
+//            JOptionPane.showMessageDialog(this, "Isi Data yang Lengkap Jangan Ada yang Kosong");
+//        }
+        TambahDataTransaksi(tgl_keluar, alamat, alamat, alamat, nama_kamar, nama_kamar, nama_kamar, alamat, alamat, tgl_masuk, tgl_keluar);
         bersihkanfield();
         KunciField(false);
     }//GEN-LAST:event_btnSimpanTransaksiActionPerformed
@@ -469,6 +539,50 @@ public class frm_transaksi extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null,"GAGAL");
             } 
     }//GEN-LAST:event_btnCariKamarPenghuniActionPerformed
+
+    private void tfPeriodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfPeriodeActionPerformed
+        // TODO add your handling code here:
+        try{
+            double jumlah=Double.parseDouble(tfPeriode.getText())*Double.parseDouble(tfHargaKamar.getText());
+        double total = 0;
+        total= total+jumlah;
+        if(tfPeriode.getText().equals("")){
+            
+        }else{
+            tfTotal.setText(Double.toString(total));
+            total=Double.parseDouble(tfTotal.getText());
+        }
+        }catch(Exception e)
+            {
+                JOptionPane.showMessageDialog(null,"GAGAL");
+            }
+    }//GEN-LAST:event_tfPeriodeActionPerformed
+
+    private void tblTransaksiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTransaksiMouseClicked
+        // TODO add your handling code here:
+        int baris=tblTransaksi.getSelectedRow();
+        String id_transaksi = tblTransaksi.getValueAt(baris, 0).toString();
+        
+        try{
+            String sql = "Select *from transaksi where id_transaksi = "+id_transaksi+";";
+            stt = con.createStatement();
+            rss = stt.executeQuery(sql);
+            while(rss.next()){
+                Object[] o = new Object[3];
+                o[0] = rss.getString("id_transaksi");
+                o[1] = rss.getString("nama_penyewa");
+                o[2] = rss.getString("nama_kamar");
+                o[3] = rss.getString("biaya");
+                tfNoPembayaran.setText(o[0].toString());
+                tfNamaPenghuni.setText(o[1].toString());
+                tfNamaKamar.setText(o[2].toString());
+                tfTotal.setText(o[2].toString());
+
+            }
+             }catch(SQLException e){
+            System.out.println(e.getMessage());
+        } 
+    }//GEN-LAST:event_tblTransaksiMouseClicked
 
     /**
      * @param args the command line arguments
