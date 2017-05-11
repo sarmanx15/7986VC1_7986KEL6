@@ -365,7 +365,7 @@ public class frm_Penghuni extends javax.swing.JFrame {
                 jButton8ActionPerformed(evt);
             }
         });
-        panel1.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 20, 110, 30));
+        panel1.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(1240, 20, 100, 30));
 
         cbCariPenghuni.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Berdasarkan", "nama", "alamat", "gender" }));
         panel1.add(cbCariPenghuni, new org.netbeans.lib.awtextra.AbsoluteConstraints(428, 465, 190, 30));
@@ -513,6 +513,7 @@ public class frm_Penghuni extends javax.swing.JFrame {
 
         panel1.add(pnlKTP, new org.netbeans.lib.awtextra.AbsoluteConstraints(1167, 154, 150, 90));
 
+        jPanel7.setBackground(new java.awt.Color(153, 153, 153));
         jPanel7.setLayout(new java.awt.GridLayout(0, 1, 0, 4));
 
         btnDetail.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -550,7 +551,7 @@ public class frm_Penghuni extends javax.swing.JFrame {
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .add(panel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 1365, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(0, 19, Short.MAX_VALUE))
+                .add(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -607,9 +608,11 @@ public class frm_Penghuni extends javax.swing.JFrame {
         String nama = tfNamaPenghuni.getText();
         String alamat = tfAlamatPenghuni.getText();
         String t4_lahir = tfTempatLahirPenghuni.getText();
+        
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
         String tgl_lahir = dateFormat.format(dcTanggalLahirPenghuni.getDate());
+        
+        
         String gender = cbGender.getSelectedItem().toString();
         String email = tfEmail.getText();
         String no_ktp = tfNomorKTP.getText();

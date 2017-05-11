@@ -218,7 +218,7 @@ public void cekstatus(){
         });
         jPanel1.add(btnReset);
 
-        panelGlass1.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, 360, 40));
+        panelGlass1.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 300, 360, 40));
 
         tblKamar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -238,7 +238,7 @@ public void cekstatus(){
         });
         jScrollPane1.setViewportView(tblKamar);
 
-        panelGlass1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 180, 580, 330));
+        panelGlass1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 180, 590, 330));
 
         btnKeluarKamar.setBackground(new java.awt.Color(255, 204, 0));
         btnKeluarKamar.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
@@ -253,7 +253,7 @@ public void cekstatus(){
                 btnKeluarKamarActionPerformed(evt);
             }
         });
-        panelGlass1.add(btnKeluarKamar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 3, 100, 40));
+        panelGlass1.add(btnKeluarKamar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 15, 70, 30));
 
         jPanel2.setLayout(new java.awt.GridLayout(4, 0, 0, 5));
 
@@ -285,7 +285,10 @@ public void cekstatus(){
         });
         jPanel2.add(tfStatusKamar);
 
-        panelGlass1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, 190, 130));
+        panelGlass1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 135, 190, 120));
+
+        jPanel3.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel3.setToolTipText("");
 
         cbFilterKamar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Berdasarkan", "Harga", "Nama", "Status" }));
 
@@ -312,14 +315,14 @@ public void cekstatus(){
                 .addComponent(btnCariKamar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        panelGlass1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 130, 280, 30));
+        panelGlass1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 135, 280, 30));
 
         jPanel4.setLayout(new java.awt.GridLayout(1, 0));
         jPanel4.add(tfCariKamar);
 
-        panelGlass1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 130, 230, 30));
+        panelGlass1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 135, 230, 30));
 
-        btnHapusKamar.setBackground(new java.awt.Color(0, 217, 61));
+        btnHapusKamar.setBackground(new java.awt.Color(255, 255, 255));
         btnHapusKamar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnHapusKamar.setText("HAPUS");
         btnHapusKamar.addActionListener(new java.awt.event.ActionListener() {
@@ -329,7 +332,7 @@ public void cekstatus(){
         });
         panelGlass1.add(btnHapusKamar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 230, 87, 40));
 
-        btnEditKamar.setBackground(new java.awt.Color(0, 217, 61));
+        btnEditKamar.setBackground(new java.awt.Color(255, 255, 255));
         btnEditKamar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnEditKamar.setText("EDIT");
         btnEditKamar.addActionListener(new java.awt.event.ActionListener() {
@@ -339,7 +342,7 @@ public void cekstatus(){
         });
         panelGlass1.add(btnEditKamar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 180, 87, 40));
 
-        getContentPane().add(panelGlass1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1190, 650));
+        getContentPane().add(panelGlass1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1190, 670));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

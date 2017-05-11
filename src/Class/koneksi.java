@@ -5,6 +5,7 @@
  */
 package Class;
 
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -20,7 +21,7 @@ public class koneksi {
         try{
             con = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/db_sak","root","");
-            JOptionPane.showMessageDialog(null, "Koneksi Berhasil");
+            Toolkit.getDefaultToolkit().beep();
         }
         catch(SQLException e){
             JOptionPane.showMessageDialog(null, "Koneksi Gagal"+e.getMessage());

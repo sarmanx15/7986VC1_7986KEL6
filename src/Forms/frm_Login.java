@@ -6,7 +6,7 @@
 package Forms;
 
 import Class.koneksi;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 public class frm_Login extends javax.swing.JFrame {
     private Object con;
     private ResultSet rss;
+    private Statement stt;
     public static Object[] id_admin = new Object[3];
 
     /**
@@ -47,6 +48,8 @@ public class frm_Login extends javax.swing.JFrame {
                     id_admin[2] = result.getString("level");
                     String nama = id_admin[1].toString();
                     String level =id_admin[2].toString();
+                    
+                    
 //                    if(level=="superadmin"){
 //                        JOptionPane.showMessageDialog(rootPane, "Selamat Datang Super Admin ^_^ ");
 //                        frm_Home awal = new frm_Home();
@@ -60,6 +63,7 @@ public class frm_Login extends javax.swing.JFrame {
 //                    }
                     JOptionPane.showMessageDialog(rootPane, "Selamat datang "+nama+", Anda Login Sebagai "+level);
                     frm_Home awal = new frm_Home();
+                    frm_Home.lblUsername.setText(id_admin[1].toString());
                         awal.setVisible(true);
                         dispose();  
                 } else {
@@ -158,10 +162,10 @@ public class frm_Login extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
-//        dispose();
-//        frm_Home home = new frm_Home();
-//        home.setVisible(true);
     ProsesLogin(tfUsername.getText(), tfPassword.getText());
+
+    
+    
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**

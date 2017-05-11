@@ -34,7 +34,7 @@ public void InitTable(){
         model.addColumn("NO.");
         model.addColumn("NAMA FASILITAS");
         model.addColumn("HARGA FASILITAS");
-        model.addColumn("STATUS FASILITAS");
+//        model.addColumn("STATUS FASILITAS");
         tblFasilitas.setModel(model);
 }
 
@@ -85,7 +85,7 @@ private void bersihkanfield(){
         tfNomorFasilitas.setText("");
         tfNamaFasilitas.setText("");
         tfHargaFasilitas.setText("");
-        tfStatusFasilitas.setText("");
+        
         tfCariFasilitas.setText("");
     }
 
@@ -93,7 +93,7 @@ private void KunciField(Boolean x){
         tfNomorFasilitas.setEnabled(x);
         tfNamaFasilitas.setEnabled(x);
         tfHargaFasilitas.setEnabled(x);
-        tfStatusFasilitas.setEnabled(x);
+        
 //        btnSimpanFasilitas.setEnabled(x);
     }
 
@@ -131,8 +131,7 @@ private void PencarianData(String by, String cari){
 public void cekstatus(){
     
          if(tfNamaFasilitas.getText().length()==0 ||
-            tfHargaFasilitas.getText().length()==0 ||
-            tfStatusFasilitas.getText().length()==0){
+            tfHargaFasilitas.getText().length()==0){
             btnSimpanFasilitas.setEnabled(false);
         }
         else{
@@ -166,7 +165,6 @@ public void cekstatus(){
         tfNomorFasilitas = new javax.swing.JTextField();
         tfNamaFasilitas = new javax.swing.JTextField();
         tfHargaFasilitas = new javax.swing.JTextField();
-        tfStatusFasilitas = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         cbFilterFasilitas = new javax.swing.JComboBox();
         btnCariFasilitas = new javax.swing.JButton();
@@ -287,13 +285,6 @@ public void cekstatus(){
             }
         });
         jPanel2.add(tfHargaFasilitas);
-
-        tfStatusFasilitas.addCaretListener(new javax.swing.event.CaretListener() {
-            public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                tfStatusFasilitasCaretUpdate(evt);
-            }
-        });
-        jPanel2.add(tfStatusFasilitas);
 
         panelGlass1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 130, 190, 120));
 
@@ -486,11 +477,6 @@ public void cekstatus(){
         cekstatus();
     }//GEN-LAST:event_tfHargaFasilitasCaretUpdate
 
-    private void tfStatusFasilitasCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfStatusFasilitasCaretUpdate
-        // TODO add your handling code here:
-        cekstatus();
-    }//GEN-LAST:event_tfStatusFasilitasCaretUpdate
-
     /**
      * @param args the command line arguments
      */
@@ -546,6 +532,5 @@ public void cekstatus(){
     private javax.swing.JTextField tfHargaFasilitas;
     private javax.swing.JTextField tfNamaFasilitas;
     private javax.swing.JTextField tfNomorFasilitas;
-    private javax.swing.JTextField tfStatusFasilitas;
     // End of variables declaration//GEN-END:variables
 }
