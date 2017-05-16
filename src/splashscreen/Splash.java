@@ -103,7 +103,7 @@ public class Splash extends javax.swing.JDialog {
         for(int i=0;i<=100;i++){
             try{
                 pertama.progBar.setValue(i);
-                Thread.sleep(20);
+                Thread.sleep(50);
             }
             catch(InterruptedException ex){
                 Logger.getLogger(Splash.class.getName()).log(Level.SEVERE, null, ex);

@@ -21,7 +21,7 @@ public class frm_Login extends javax.swing.JFrame {
     private Object con;
     private ResultSet rss;
     private Statement stt;
-    public static Object[] id_admin = new Object[3];
+    public static Object[] admin = new Object[3];
 
     /**
      * Creates new form LoginPanel
@@ -31,7 +31,7 @@ public class frm_Login extends javax.swing.JFrame {
     }
     
     public static Object[] getform(){
-        return id_admin;
+        return admin;
     }
         private void ProsesLogin(String username, String password){
          
@@ -43,27 +43,25 @@ public class frm_Login extends javax.swing.JFrame {
             
             if(result.next()){
                 if(password.equals(result.getString("password"))){
-                    id_admin[0] = result.getString("id_admin");
-                    id_admin[1] = result.getString("nama_admin");
-                    id_admin[2] = result.getString("level");
-                    String nama = id_admin[1].toString();
-                    String level =id_admin[2].toString();
+                    admin[0] = result.getString("id_admin");
+                    admin[1] = result.getString("nama_admin");
+                    admin[2] = result.getString("level");
+                    String id_admin = admin[0].toString();
+                    String nama = admin[1].toString();
+                    String level =admin[2].toString();
                     
-                    
-//                    if(level=="superadmin"){
-//                        JOptionPane.showMessageDialog(rootPane, "Selamat Datang Super Admin ^_^ ");
-//                        frm_Home awal = new frm_Home();
-//                        awal.setVisible(true);
-//                        dispose();
-//                    }else if(level=="admin"){
-//                        JOptionPane.showMessageDialog(rootPane, "Selamat Datang Super Admin ^.^ ");
-//                        frm_Home awal = new frm_Home();
-//                        awal.setVisible(true);
-//                        dispose();  
-//                    }
                     JOptionPane.showMessageDialog(rootPane, "Selamat datang "+nama+", Anda Login Sebagai "+level);
+                    
                     frm_Home awal = new frm_Home();
-                    frm_Home.lblUsername.setText(id_admin[1].toString());
+                    frm_Home.lblUsername.setText(admin[1].toString());
+                    frm_transaksi transaksi = new frm_transaksi();
+                    frm_transaksi.id_admin = Integer.parseInt(admin[0].toString());
+                    
+                    if(level.equals("Superadmin")){
+                        awal.pnlAdmin.setVisible(true);
+                    }else{
+                        awal.pnlAdmin.setVisible(false);
+                    }
                         awal.setVisible(true);
                         dispose();  
                 } else {
@@ -99,7 +97,8 @@ public class frm_Login extends javax.swing.JFrame {
         btnCancel = new javax.swing.JButton();
         tfPassword = new javax.swing.JPasswordField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setResizable(false);
 
         panel1.setBackgroundImage(new javax.swing.ImageIcon(getClass().getResource("/IMG/bgLogin.png"))); // NOI18N
         panel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -149,6 +148,7 @@ public class frm_Login extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void tfUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfUsernameActionPerformed

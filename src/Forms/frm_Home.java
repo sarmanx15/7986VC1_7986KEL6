@@ -44,8 +44,11 @@ public class frm_Home extends javax.swing.JFrame {
         pnlDataFasilitas = new usu.widget.Panel();
         btnLogout = new javax.swing.JButton();
         lblUsername = new javax.swing.JLabel();
+        pnlAdmin = new usu.widget.Panel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panel2.setBackgroundImage(new javax.swing.ImageIcon(getClass().getResource("/IMG/bgHome.png"))); // NOI18N
@@ -184,6 +187,7 @@ public class frm_Home extends javax.swing.JFrame {
 
         btnLogout.setBackground(new java.awt.Color(240, 11, 59));
         btnLogout.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnLogout.setForeground(new java.awt.Color(204, 204, 204));
         btnLogout.setText("Logout");
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -197,6 +201,28 @@ public class frm_Home extends javax.swing.JFrame {
         lblUsername.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMG/Login As User_16px.png"))); // NOI18N
         lblUsername.setText("jLabel1");
 
+        pnlAdmin.setBackground(new java.awt.Color(255, 229, 136));
+        pnlAdmin.setBackgroundImage(new javax.swing.ImageIcon(getClass().getResource("/IMG/DataAdmin.png"))); // NOI18N
+        pnlAdmin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                pnlAdminMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                pnlAdminMouseReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlAdminLayout = new javax.swing.GroupLayout(pnlAdmin);
+        pnlAdmin.setLayout(pnlAdminLayout);
+        pnlAdminLayout.setHorizontalGroup(
+            pnlAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 107, Short.MAX_VALUE)
+        );
+        pnlAdminLayout.setVerticalGroup(
+            pnlAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout panel2Layout = new javax.swing.GroupLayout(panel2);
         panel2.setLayout(panel2Layout);
         panel2Layout.setHorizontalGroup(
@@ -205,24 +231,25 @@ public class frm_Home extends javax.swing.JFrame {
                 .addGap(150, 229, Short.MAX_VALUE)
                 .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
-                        .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panel2Layout.createSequentialGroup()
-                                .addComponent(pnlDataTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(pnlLaporan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(pnlTentang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panel2Layout.createSequentialGroup()
-                                .addComponent(pnlDataPenghuni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(pnlDataKamar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(pnlDataFasilitas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(pnlDataTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(pnlLaporan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(pnlTentang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(254, 254, 254))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
                         .addComponent(lblUsername)
                         .addGap(18, 18, 18)
-                        .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnLogout)
+                        .addGap(20, 20, 20))
+                    .addGroup(panel2Layout.createSequentialGroup()
+                        .addComponent(pnlDataPenghuni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(pnlDataKamar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(pnlDataFasilitas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(pnlAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
         panel2Layout.setVerticalGroup(
@@ -230,13 +257,14 @@ public class frm_Home extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblUsername))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
-                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlDataKamar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pnlDataFasilitas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pnlDataPenghuni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(pnlDataKamar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlDataFasilitas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlDataPenghuni, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(pnlLaporan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -248,6 +276,7 @@ public class frm_Home extends javax.swing.JFrame {
         getContentPane().add(panel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 840, 480));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void pnlDataPenghuniMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDataPenghuniMousePressed
@@ -303,28 +332,45 @@ public class frm_Home extends javax.swing.JFrame {
     private void pnlLaporanMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlLaporanMouseReleased
         // TODO add your handling code here:
         pnlLaporan.setBackground(new Color(255, 229, 136));
-        JOptionPane.showMessageDialog(rootPane, "Mohon Maaf, Program Masih dalam Tahap Pengembangan, Anda Belum Bisa Mengakses Menu ini. . .");
+        new frm_laporan().setVisible(true);
    
     }//GEN-LAST:event_pnlLaporanMouseReleased
 
     private void pnlTentangMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlTentangMousePressed
         // TODO add your handling code here:
         pnlTentang.setBackground(new Color(103,183,242));
-        new frm_about().setVisible(true);
+
         
     }//GEN-LAST:event_pnlTentangMousePressed
 
     private void pnlTentangMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlTentangMouseReleased
         // TODO add your handling code here:
         pnlTentang.setBackground(new Color(255, 229, 136));
+        new frm_about().setVisible(true);
     }//GEN-LAST:event_pnlTentangMouseReleased
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         // TODO add your handling code here:
-        frm_Login login = new frm_Login();
+        
+        
+        int pilihan = JOptionPane.showConfirmDialog(this,"Apa anda yakin ingin Logout? ","Konfirmasi",JOptionPane.YES_NO_OPTION);
+        if (pilihan==0) {
+            frm_Login login = new frm_Login();
         login.setVisible(true);
-        dispose();
+            dispose();
+        }
     }//GEN-LAST:event_btnLogoutActionPerformed
+
+    private void pnlAdminMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlAdminMousePressed
+        // TODO add your handling code here:
+        pnlAdmin.setBackground(new Color(103,183,242));
+    }//GEN-LAST:event_pnlAdminMousePressed
+
+    private void pnlAdminMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlAdminMouseReleased
+        // TODO add your handling code here:
+        pnlAdmin.setBackground(new Color(255, 229, 136));
+        new frm_Admin().setVisible(true);
+    }//GEN-LAST:event_pnlAdminMouseReleased
 
     /**
      * @param args the command line arguments
@@ -367,6 +413,7 @@ public class frm_Home extends javax.swing.JFrame {
     private org.jdesktop.layout.LayoutStyle layoutStyle1;
     public static javax.swing.JLabel lblUsername;
     private usu.widget.Panel panel2;
+    public static usu.widget.Panel pnlAdmin;
     private usu.widget.Panel pnlDataFasilitas;
     private usu.widget.Panel pnlDataKamar;
     private usu.widget.Panel pnlDataPenghuni;

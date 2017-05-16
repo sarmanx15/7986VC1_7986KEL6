@@ -5,6 +5,8 @@
  */
 package Forms;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author acer
@@ -30,15 +32,14 @@ public class frm_about extends javax.swing.JFrame {
         panel1 = new usu.widget.Panel();
         btnKeluar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setUndecorated(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setResizable(false);
 
         panel1.setBackgroundImage(new javax.swing.ImageIcon(getClass().getResource("/IMG/bgFormAbout.png"))); // NOI18N
 
-        btnKeluar.setBackground(new java.awt.Color(255, 51, 51));
+        btnKeluar.setBackground(new java.awt.Color(255, 204, 0));
         btnKeluar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btnKeluar.setText("Keluar");
+        btnKeluar.setText("Tutup");
         btnKeluar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnKeluarActionPerformed(evt);
@@ -80,11 +81,15 @@ public class frm_about extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKeluarActionPerformed
         // TODO add your handling code here:
-        dispose();
+        int pilihan = JOptionPane.showConfirmDialog(this,"Apa anda yakin ingin Menutup? ","Konfirmasi",JOptionPane.YES_NO_OPTION);
+        if (pilihan==0) {
+            dispose();
+        }
     }//GEN-LAST:event_btnKeluarActionPerformed
 
     /**

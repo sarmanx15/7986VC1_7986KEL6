@@ -5,6 +5,8 @@
  */
 package Forms;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author acer
@@ -57,8 +59,7 @@ public class frm_detail_penghuni extends javax.swing.JFrame {
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setUndecorated(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setResizable(false);
 
         panel2.setBackgroundImage(new javax.swing.ImageIcon(getClass().getResource("/IMG/bgFormDetailPenghuni.png"))); // NOI18N
@@ -199,6 +200,7 @@ public class frm_detail_penghuni extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void panel2AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_panel2AncestorAdded
@@ -207,7 +209,10 @@ public class frm_detail_penghuni extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        dispose();
+        int pilihan = JOptionPane.showConfirmDialog(this,"Apa anda yakin ingin Menutup? ","Konfirmasi",JOptionPane.YES_NO_OPTION);
+        if (pilihan==0) {
+            dispose();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

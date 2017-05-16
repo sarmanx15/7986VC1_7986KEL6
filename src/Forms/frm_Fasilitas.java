@@ -6,6 +6,7 @@
 package Forms;
 
 import Class.koneksi;
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -138,6 +139,38 @@ public void cekstatus(){
             btnSimpanFasilitas.setEnabled(true);
         }
      } 
+
+public boolean validasikode(int id_fasilitas){
+    try{
+            String sql = "Select *from fasilitas where id_fasilitas = '"+id_fasilitas+"';";
+            stt = con.createStatement();
+            rss = stt.executeQuery(sql);
+            if(rss.next())
+                return true;
+            else 
+                return false;
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+            return true;
+        }
+}
+
+public boolean validasiNama(String nama_fasilitas){
+    try{
+            String sql = "Select *from fasilitas where nama_fasilitas = '"+nama_fasilitas+"';";
+            stt = con.createStatement();
+            rss = stt.executeQuery(sql);
+            if(rss.next())
+                return true;
+            else 
+                return false;
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+            return true;
+        }
+}
     public frm_Fasilitas() {
         initComponents();
     }
@@ -156,8 +189,7 @@ public void cekstatus(){
         jPanel1 = new javax.swing.JPanel();
         btnSimpanFasilitas = new javax.swing.JButton();
         btnTambahFasilitas = new javax.swing.JButton();
-        btnEditFasilitas = new javax.swing.JButton();
-        btnHapusFasilitas = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblFasilitas = new javax.swing.JTable();
         btnTutupFasilitas = new javax.swing.JButton();
@@ -170,9 +202,11 @@ public void cekstatus(){
         btnCariFasilitas = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         tfCariFasilitas = new javax.swing.JTextField();
+        jPanel5 = new javax.swing.JPanel();
+        btnEditFasilitas = new javax.swing.JButton();
+        btnHapusFasilitas = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setUndecorated(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 formComponentShown(evt);
@@ -181,11 +215,16 @@ public void cekstatus(){
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelGlass1.setBackgroundImage(new javax.swing.ImageIcon(getClass().getResource("/IMG/bgFormFasilitas.png"))); // NOI18N
+        panelGlass1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panelGlass1MouseClicked(evt);
+            }
+        });
         panelGlass1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
+        jPanel1.setLayout(new java.awt.GridLayout(1, 0, 4, 0));
 
-        btnSimpanFasilitas.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnSimpanFasilitas.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnSimpanFasilitas.setText("SIMPAN");
         btnSimpanFasilitas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -194,7 +233,7 @@ public void cekstatus(){
         });
         jPanel1.add(btnSimpanFasilitas);
 
-        btnTambahFasilitas.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnTambahFasilitas.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnTambahFasilitas.setText("TAMBAH");
         btnTambahFasilitas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -203,25 +242,16 @@ public void cekstatus(){
         });
         jPanel1.add(btnTambahFasilitas);
 
-        btnEditFasilitas.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnEditFasilitas.setText("EDIT");
-        btnEditFasilitas.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jButton1.setText("BERSIHKAN");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditFasilitasActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(btnEditFasilitas);
+        jPanel1.add(jButton1);
 
-        btnHapusFasilitas.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnHapusFasilitas.setText("HAPUS");
-        btnHapusFasilitas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHapusFasilitasActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnHapusFasilitas);
-
-        panelGlass1.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(31, 294, 362, 50));
+        panelGlass1.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, 370, 40));
 
         tblFasilitas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -241,7 +271,7 @@ public void cekstatus(){
         });
         jScrollPane1.setViewportView(tblFasilitas);
 
-        panelGlass1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 180, 710, 380));
+        panelGlass1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 180, 620, 360));
 
         btnTutupFasilitas.setBackground(new java.awt.Color(240, 217, 39));
         btnTutupFasilitas.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -256,10 +286,11 @@ public void cekstatus(){
                 btnTutupFasilitasActionPerformed(evt);
             }
         });
-        panelGlass1.add(btnTutupFasilitas, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 10, 100, 40));
+        panelGlass1.add(btnTutupFasilitas, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 15, 90, 30));
 
         jPanel2.setLayout(new java.awt.GridLayout(4, 0, 0, 4));
 
+        tfNomorFasilitas.setEditable(false);
         tfNomorFasilitas.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 tfNomorFasilitasKeyTyped(evt);
@@ -284,16 +315,30 @@ public void cekstatus(){
                 tfHargaFasilitasActionPerformed(evt);
             }
         });
+        tfHargaFasilitas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfHargaFasilitasKeyTyped(evt);
+            }
+        });
         jPanel2.add(tfHargaFasilitas);
 
         panelGlass1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 130, 190, 120));
 
-        jPanel3.setLayout(new java.awt.GridLayout(1, 0));
+        jPanel3.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel3.setLayout(new java.awt.GridLayout(1, 0, 4, 0));
 
-        cbFilterFasilitas.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Berdasarkan", "Harga", "Nama", "Status" }));
+        cbFilterFasilitas.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Berdasarkan", "Harga", "Nama" }));
         jPanel3.add(cbFilterFasilitas);
 
         btnCariFasilitas.setText("CARI");
+        btnCariFasilitas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnCariFasilitasMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnCariFasilitasMouseExited(evt);
+            }
+        });
         btnCariFasilitas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCariFasilitasActionPerformed(evt);
@@ -301,7 +346,7 @@ public void cekstatus(){
         });
         jPanel3.add(btnCariFasilitas);
 
-        panelGlass1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 140, 280, 30));
+        panelGlass1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 140, 290, 30));
 
         jPanel4.setLayout(new java.awt.BorderLayout());
 
@@ -314,20 +359,82 @@ public void cekstatus(){
 
         panelGlass1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 140, 230, 30));
 
-        getContentPane().add(panelGlass1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 1190, 670));
+        jPanel5.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel5.setLayout(new java.awt.GridLayout(0, 1, 0, 4));
+
+        btnEditFasilitas.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnEditFasilitas.setText("EDIT");
+        btnEditFasilitas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditFasilitasActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btnEditFasilitas);
+
+        btnHapusFasilitas.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnHapusFasilitas.setText("HAPUS");
+        btnHapusFasilitas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHapusFasilitasActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btnHapusFasilitas);
+
+        panelGlass1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 180, 80, 80));
+
+        getContentPane().add(panelGlass1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 670));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSimpanFasilitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanFasilitasActionPerformed
         // TODO add your handling code here:
+        
         String id = tfNomorFasilitas.getText();
         String nama_fasilitas = tfNamaFasilitas.getText();
         String harga_fasilitas = tfHargaFasilitas.getText();
+        int id_fas = Integer.parseInt(id);
         
-        TambahDataFasilitas(nama_fasilitas,harga_fasilitas);
-        bersihkanfield();
-        KunciField(false);
+        if(validasikode(id_fas)){
+            int pilihan = JOptionPane.showConfirmDialog(this,"Apakah Anda Ingin Mengubah data? ","Konfirmasi",JOptionPane.YES_NO_OPTION);
+            if (pilihan==0) {
+                if(UbahDataFasilitas(id, nama_fasilitas, harga_fasilitas)){
+                    JOptionPane.showMessageDialog(null, "Berhasil Ubah Data");
+                    InitTable();
+                    TampilDataFasilitas();
+                    bersihkanfield();
+                    KunciField(false);
+                    btnSimpanFasilitas.setEnabled(false);
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Gagal Ubah Data");
+
+                }
+            }
+        }
+        else{
+            int pilihan = JOptionPane.showConfirmDialog(this,"Apakah Anda Ingin Menambah data? ","Konfirmasi",JOptionPane.YES_NO_OPTION);
+            if (pilihan==0) {
+                if(validasiNama(nama_fasilitas)){
+                    JOptionPane.showMessageDialog(null, "Nama Fasilitas Telah Terdaftar...");
+                }
+                else{
+                    TambahDataFasilitas(nama_fasilitas,harga_fasilitas);
+                    bersihkanfield();
+                    KunciField(false);
+                }
+            }
+        }
+        
+        
+        
+//        int baris = tblFasilitas.getSelectedRow();
+//        String id = tblFasilitas.getValueAt(baris, 0).toString();
+//        String nama_fasilitas = tfNamaFasilitas.getText();
+//        String harga_fasilitas = tfHargaFasilitas.getText();
+//                
+        
     }//GEN-LAST:event_btnSimpanFasilitasActionPerformed
 
     private void tfHargaFasilitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfHargaFasilitasActionPerformed
@@ -340,11 +447,10 @@ public void cekstatus(){
 
     private void btnTutupFasilitasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTutupFasilitasMouseClicked
         // TODO add your handling code here:
-//         int pilihan = JOptionPane.showConfirmDialog(this,"Apa anda yakin ingin Keluar","Exit",JOptionPane.YES_NO_OPTION);
-//        if (pilihan==0) {
-//            System.exit(0);
-//        }    
-        dispose();
+        int pilihan = JOptionPane.showConfirmDialog(this,"Apa anda yakin ingin Menutup? ","Konfirmasi",JOptionPane.YES_NO_OPTION);
+        if (pilihan==0) {
+            dispose();
+        }
     }//GEN-LAST:event_btnTutupFasilitasMouseClicked
 
     private void tfCariFasilitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfCariFasilitasActionPerformed
@@ -353,45 +459,34 @@ public void cekstatus(){
 
     private void btnHapusFasilitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusFasilitasActionPerformed
         // TODO add your handling code here:
-        int baris = tblFasilitas.getSelectedRow();
-        String id_kamar = tblFasilitas.getValueAt(baris, 0).toString();
-        
-        if(HapusData(id_kamar)){
-            JOptionPane.showMessageDialog(null, "Berhasil Hapus Data");
+         if((tblFasilitas.getSelectedRow()==-1)){
+            JOptionPane.showMessageDialog(null, "Silahkan pilih baris yang ingin dihapus pada Tabel..");            
         }
-        else{
-            JOptionPane.showConfirmDialog(null, "Gagal Hapus Data");
-            
-        }
-        InitTable();
-        TampilDataFasilitas();
-        bersihkanfield();
-        KunciField(false);
+        else{ 
+            int pilihan = JOptionPane.showConfirmDialog(this,"Apakah Anda Ingin Hapus Data? ","Konfirmasi",JOptionPane.YES_NO_OPTION);
+            if (pilihan==0) {
+
+                int baris = tblFasilitas.getSelectedRow();
+                String id_kamar = tblFasilitas.getValueAt(baris, 0).toString();
+
+                if(HapusData(id_kamar)){
+                    JOptionPane.showMessageDialog(null, "Berhasil Hapus Data");
+                }
+                else{
+                    JOptionPane.showConfirmDialog(null, "Gagal Hapus Data");
+
+                }
+                InitTable();
+                TampilDataFasilitas();
+                bersihkanfield();
+                KunciField(false);
+            }
+         }
     }//GEN-LAST:event_btnHapusFasilitasActionPerformed
 
     private void tblFasilitasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblFasilitasMouseClicked
         // TODO add your handling code here:
-        int baris=tblFasilitas.getSelectedRow();
-        String id_fasilitas = tblFasilitas.getValueAt(baris, 0).toString();
         
-        try{
-            String sql = "Select *from fasilitas where id_fasilitas = "+id_fasilitas+";";
-            stt = con.createStatement();
-            rss = stt.executeQuery(sql);
-            while(rss.next()){
-                Object[] o = new Object[3];
-                o[0] = rss.getString("id_fasilitas");
-                o[1] = rss.getString("nama_fasilitas");
-                o[2] = rss.getString("harga_fasilitas");
-                
-                tfNomorFasilitas.setText(o[0].toString());
-                tfNamaFasilitas.setText(o[1].toString());
-                tfHargaFasilitas.setText(o[2].toString());
-                
-            }
-             }catch(SQLException e){
-            System.out.println(e.getMessage());
-        }
     }//GEN-LAST:event_tblFasilitasMouseClicked
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
@@ -442,29 +537,54 @@ public void cekstatus(){
     }//GEN-LAST:event_btnCariFasilitasActionPerformed
 
     private void btnEditFasilitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditFasilitasActionPerformed
-        // TODO add your handling code here:
-        int baris = tblFasilitas.getSelectedRow();
-        String id = tblFasilitas.getValueAt(baris, 0).toString();
-        String nama_fasilitas = tfNamaFasilitas.getText();
-        String harga_fasilitas = tfHargaFasilitas.getText();
-                
-        if(UbahDataFasilitas(id, nama_fasilitas, harga_fasilitas)){
-            JOptionPane.showMessageDialog(null, "Berhasil Ubah Data");
-            InitTable();
-            TampilDataFasilitas();
-            bersihkanfield();
-            KunciField(false);
-            btnSimpanFasilitas.setEnabled(false);
+        // TODO add your handling code here:    
+        if((tblFasilitas.getSelectedRow()==-1)){
+            JOptionPane.showMessageDialog(null, "Silahkan pilih baris yang ingin diedit pada Tabel..");            
         }
-        else{
-            JOptionPane.showConfirmDialog(null, "Gagal Ubah Data");
-            
+        else{ 
+            int baris=tblFasilitas.getSelectedRow();
+            String id_fasilitas = tblFasilitas.getValueAt(baris, 0).toString();
+            try{
+                String sql = "Select *from fasilitas where id_fasilitas = "+id_fasilitas+";";
+                stt = con.createStatement();
+                rss = stt.executeQuery(sql);
+                while(rss.next()){
+                    Object[] o = new Object[3];
+                    o[0] = rss.getString("id_fasilitas");
+                    o[1] = rss.getString("nama_fasilitas");
+                    o[2] = rss.getString("harga_fasilitas");
+
+                    tfNomorFasilitas.setText(o[0].toString());
+                    tfNamaFasilitas.setText(o[1].toString());
+                    tfHargaFasilitas.setText(o[2].toString());  
+                    KunciField(true);
+                }
+                 }catch(SQLException e){
+                System.out.println(e.getMessage());
+            }
         }
     }//GEN-LAST:event_btnEditFasilitasActionPerformed
 
     private void btnTambahFasilitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahFasilitasActionPerformed
         // TODO add your handling code here:
         KunciField(true);
+        try{
+            String sql = "Select max(id_fasilitas) as id_fasilitas from logidfasillitas;";
+            stt = con.createStatement();
+            rss = stt.executeQuery(sql);
+            while(rss.next()){
+                Object[] o = new Object[1];
+                o[0] = rss.getString("id_fasilitas");
+                
+                int id = Integer.parseInt(o[0].toString())+1;
+                String id_fasilitas = String.valueOf(id);
+                tfNomorFasilitas.setText(id_fasilitas);
+
+                
+            }
+             }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
     }//GEN-LAST:event_btnTambahFasilitasActionPerformed
 
     private void tfNamaFasilitasCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfNamaFasilitasCaretUpdate
@@ -476,6 +596,34 @@ public void cekstatus(){
         // TODO add your handling code here:
         cekstatus();
     }//GEN-LAST:event_tfHargaFasilitasCaretUpdate
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        bersihkanfield();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnCariFasilitasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCariFasilitasMouseEntered
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btnCariFasilitasMouseEntered
+
+    private void btnCariFasilitasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCariFasilitasMouseExited
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_btnCariFasilitasMouseExited
+
+    private void tfHargaFasilitasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfHargaFasilitasKeyTyped
+        // TODO add your handling code here:
+        char c=evt.getKeyChar();
+        if(!(Character.isDigit(c)||c==KeyEvent.VK_BACK_SPACE||c==KeyEvent.VK_DELETE)){
+            evt.consume();
+        }
+    }//GEN-LAST:event_tfHargaFasilitasKeyTyped
+
+    private void panelGlass1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelGlass1MouseClicked
+        // TODO add your handling code here:
+        tblFasilitas.clearSelection();
+    }//GEN-LAST:event_panelGlass1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -520,10 +668,12 @@ public void cekstatus(){
     private javax.swing.JButton btnTambahFasilitas;
     private javax.swing.JButton btnTutupFasilitas;
     private javax.swing.JComboBox cbFilterFasilitas;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private org.jdesktop.layout.LayoutStyle layoutStyle1;
     private usu.widget.glass.PanelGlass panelGlass1;
